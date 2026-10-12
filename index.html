@@ -607,7 +607,7 @@
     if (box.open) scale();
     sync();
   });
-  if (GIF) { box.querySelector('h2').style.display = 'none'; toggle.style.visibility = 'hidden'; }
+  if (GIF) { box.querySelector('summary').style.display = 'none'; toggle.style.visibility = 'hidden'; }
   const at0 = /[?&]step=(\d)/.exec(location.search);
   scale(); window.addEventListener('resize', scale);
   if (reduce.matches) { userPaused = true; still(); label(false); } else { reset(); label(true); }

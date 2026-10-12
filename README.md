@@ -37,9 +37,11 @@ StoryQuest is free to use, and your information stays on your device.
 
 <p align="center"><b>Download the Treasure Island sample:</b> <a href="docs/samples/treasure-island-packet.pdf">kid's packet (PDF)</a> · <a href="docs/samples/treasure-island-guide.pdf">grown-up's answer guide (PDF)</a></p>
 
-## Make one (about 15 minutes, no installing)
+## How it works
 
-<p align="center"><a href="https://fletchwork.github.io/storyquest/"><img src="docs/img/how-it-works.jpg" alt="Four steps: 1 copy the instructions on StoryQuest; 2 paste them into your AI chatbot, answer its questions, and press the Copy button on the block it writes; 3 paste that block back into StoryQuest and press Make my pages; 4 check the pages and print" width="640"></a><br><sub>The StoryQuest page plays this as a short animation you can pause and step through.</sub></p>
+<p align="center"><a href="https://fletchwork.github.io/storyquest/"><img src="docs/img/how-it-works.gif" alt="Animation of the four steps: 1 copy the instructions on StoryQuest; 2 paste them into your AI chatbot, answer its questions, and press the Copy button on the block it writes; 3 paste that block back into StoryQuest and press Make my pages; 4 check the pages and print" width="640"></a><br><sub>You copy the instructions, your AI chatbot asks a few questions and writes the packet, and you paste it back to print. To pause or step through this, use the <a href="https://fletchwork.github.io/storyquest/">StoryQuest page</a>.</sub></p>
+
+## Make one (about 15 minutes, no installing)
 
 1. **Open the StoryQuest page:** https://fletchwork.github.io/storyquest/
 2. **Click "Copy the instructions"** and paste them into any AI chatbot you already use, such as ChatGPT, Claude, Gemini or Copilot.
