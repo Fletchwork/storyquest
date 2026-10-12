@@ -1,0 +1,299 @@
+{
+  "storyquest": 1,
+  "book": { "title": "Treasure Island", "author": "Robert Louis Stevenson", "format": "paper" },
+  "options": { "paper": "letter", "hole_punch_margin": true, "page_numbers": false },
+  "reader": { "name": "", "age": 10, "lines": "college" },
+  "grownup": "Grown-up",
+  "theme": "pirate-seas",
+  "theme_suggestions": [
+    { "theme": "pirate-seas", "why": "Pirates, a treasure map and a ship: this look is dressed for it." },
+    { "theme": "storybook", "why": "A classic 1883 adventure suits parchment and old-fashioned ink." },
+    { "theme": "clean", "why": "Plain black and white if you want to save ink." }
+  ],
+  "cover": {
+    "title": "Reading Quest",
+    "subtitle": "Robert Louis Stevenson",
+    "tagline": "Pirate edition",
+    "how_it_works": [
+      "**Read at your own speed.** Each quest unlocks at a point in the story. Do it when you get there. Already past one? Do it anyway.",
+      "**About ten minutes each.** Drawing, writing, puzzles and arguments. No quizzes.",
+      "**Chapters, not page numbers.** Editions of *Treasure Island* are laid out differently, so every quest tells you which chapters it covers.",
+      "**Show your grown-up each one** for the stamp. If you can stump them, even better."
+    ],
+    "levels": ["Cabin Boy", "Deckhand", "Lookout", "Powder Monkey", "Gunner", "Navigator", "First Mate", "Captain", "Admiral", "Legend"],
+    "icons": ["ship", "map", "compass", "coin", "anchor", "key"],
+    "route": [
+      { "place": "Admiral Benbow Inn", "quests": [1, 2] },
+      { "place": "Bristol", "quests": [3] },
+      { "place": "the Hispaniola", "quests": [4] },
+      { "place": "Treasure Island", "quests": [5] },
+      { "place": "the stockade", "quests": [6, 7, 9] },
+      { "place": "North Inlet", "quests": [8] },
+      { "place": "the Spy-glass", "quests": [10] }
+    ]
+  },
+  "quests": [
+    {
+      "title": "The Old Sea-Dog",
+      "kicker": "Chapters 1-3",
+      "icon": "anchor",
+      "unlock": "after a stranger comes tapping up the road to the inn",
+      "footer": "Fun fact: Jim says the notch the captain’s cutlass made in the Admiral Benbow’s signboard can still be seen (Ch. 2).",
+      "activities": [
+        { "type": "intro", "text": "Jim’s father keeps a quiet inn by the sea. Then a brown old seaman with a sabre cut arrives, and nothing is quiet again." },
+        { "type": "questions", "items": [
+          "The captain pays Jim a silver fourpenny every month to watch for a one-legged seafaring man, and Jim says the nightmares made it a high price. What would *you* have charged?",
+          "Dr. Livesey stands up to the captain without raising his voice or even moving. Why can calm be scarier than loud?",
+          "Everyone in the inn sings the captain’s song, even though they’re scared of him. Why would you sing along?"
+        ] },
+        { "type": "draw", "prompt": "Draw the captain using **only clues from the book**. Label three of them.", "size": "medium", "caption": "THE CAPTAIN", "labels": 3 }
+      ]
+    },
+    {
+      "title": "The Captain’s Chest",
+      "kicker": "Chapters 4-6",
+      "icon": "map",
+      "unlock": "after an oilskin packet is opened",
+      "footer": "Fun fact: the coins in the captain’s chest came from many countries, “shaken together at random” (Ch. 4).",
+      "activities": [
+        { "type": "questions", "items": [
+          "Jim’s mother takes only what she’s owed, “not a farthing over,” with pirates coming. Brave or foolish?",
+          "Dr. Livesey says the squire “cannot hold [his] tongue.” What could go wrong with a secret like that?"
+        ] },
+        { "type": "draw", "prompt": "Draw the island using **only what Jim says about the map in Chapter 6**. Label two things.", "size": "medium", "labels": 2 },
+        { "type": "sealed_prediction", "title": "Sealed prediction: the hunt", "open_on": "the last page of the book", "lines": 2,
+          "prompts": [
+            "Will the treasure be where the map says it is? Make a guess and give one reason.",
+            "Who do you think will cause the most trouble on the voyage, and why?"
+          ] }
+      ]
+    },
+    {
+      "title": "All Aboard in Bristol",
+      "kicker": "Chapters 7-9",
+      "icon": "ship",
+      "unlock": "after the schooner is loaded and ready",
+      "footer": "Fun fact: Silver’s tavern sign is a large brass telescope (Ch. 8), just like the one the old captain carried (Ch. 1).",
+      "activities": [
+        { "type": "crossword", "words": [
+          ["HISPANIOLA", "The schooner the squire buys for the voyage"],
+          ["TRELAWNEY", "The squire, who can’t keep a secret"],
+          ["SMOLLETT", "Captain who says he doesn’t like this cruise"],
+          ["SPYGLASS", "Silver’s tavern is “at the sign of the ___”"],
+          ["BRISTOL", "Port city where the ship waits"],
+          ["BLANDLY", "Squire’s friend who found the ship"],
+          ["REDRUTH", "Gamekeeper who goes with Jim to Bristol"],
+          ["CRUTCH", "Long John hops about on this “like a bird”"],
+          ["SCHOONER", "What kind of ship the Hispaniola is"],
+          ["BLACKDOG", "Pirate who bolts from Silver’s tavern"]
+        ] },
+        { "type": "questions", "items": [
+          "Silver acts furious that Black Dog skipped his bill, then laughs until he cries. Fooled you?"
+        ] }
+      ]
+    },
+    {
+      "title": "The Apple Barrel",
+      "kicker": "Chapters 10-12",
+      "icon": "apple",
+      "unlock": "after the island comes into view",
+      "footer": "Fun fact: the crew is spoiled with double grog, duff on odd days and “always a barrel of apples standing broached in the waist” (Ch. 10).",
+      "activities": [
+        { "type": "character_cards", "prompt": "Four people on the Hispaniola. Fill in a card for each one, based on what you’ve seen so far.",
+          "names": ["Long John Silver", "Captain Smollett", "Squire Trelawney", "Dr. Livesey"],
+          "fields": ["Best at", "Their best (or worst) moment so far"] },
+        { "type": "stump_the_grownup", "count": 2 }
+      ]
+    },
+    {
+      "title": "Jim Goes Ashore",
+      "kicker": "Chapters 13-15",
+      "icon": "grass",
+      "unlock": "after a cannon shot echoes across the island",
+      "footer": "Fun fact: Ben Gunn tells Jim he has lived on goats, berries and oysters for three years (Ch. 15).",
+      "activities": [
+        { "type": "comic", "panels": 6,
+          "ideas": [
+            "Jim sneaks ashore in a boat (Ch. 13)",
+            "A shaggy figure darting “like a deer” (Ch. 15)"
+          ] },
+        { "type": "questions", "items": [
+          "If you were marooned like Ben Gunn, which food would haunt *your* dreams?"
+        ] }
+      ]
+    },
+    {
+      "title": "A Boat Too Full",
+      "kicker": "Chapters 16-18",
+      "icon": "chest",
+      "unlock": "after the first day of fighting ends",
+      "footer": "Fun fact: the doctor calls the jolly-boat a “little gallipot of a boat”; it carried five grown men plus powder, pork and bread (Ch. 17).",
+      "activities": [
+        { "type": "intro", "text": "For a few chapters the doctor takes over the story. Notice what he pays attention to that Jim didn’t." },
+        { "type": "invent_item", "title": "Invent the thing they needed",
+          "prompt": "The overloaded jolly-boat sinks in three feet of water and takes half the powder and food with it. Invent **one item** the people in the stockade could use: useful, silly or both. Fill in the recipe, then make its item card.",
+          "who": "Who in the story should get it, and why?",
+          "question": "If you could rescue only three things from a sinking boat, what would they be?" }
+      ]
+    },
+    {
+      "title": "The Stockade",
+      "kicker": "Chapters 19-21",
+      "icon": "castle",
+      "unlock": "after the first real attack on the stockade",
+      "footer": "Fun fact: the stockade’s spring wells up inside an iron ship’s kettle with the bottom knocked out, sunk in the sand (Ch. 19).",
+      "activities": [
+        { "type": "questions", "items": [
+          "When cannonballs start landing near the flag, the squire says to take it down. Captain Smollett cries “Strike my colours!” and refuses. The doctor calls that “good policy.” Do you agree?",
+          "Silver climbs the fence and the hard, sandy hill on his crutch to talk himself. Why would he do that instead of sending someone?"
+        ] },
+        { "type": "write", "title": "The captain’s log",
+          "prompt": "Captain Smollett keeps a log-book (Ch. 18). Write his entry for the day Silver came to the stockade under a white flag: short, dry and exact, like a captain would.",
+          "starter": "Today a man calling himself Captain Silver came to the stockade...", "lines": 6 },
+        { "type": "two_truths", "prompt": "Write two truths and a lie about the stockade chapters. Read them out at dinner and see who gets fooled." }
+      ]
+    },
+    {
+      "title": "Jim’s Sea Adventure",
+      "kicker": "Chapters 22-26",
+      "icon": "compass",
+      "unlock": "after the Hispaniola touches the sand",
+      "footer": "Fun fact: when Jim hauls down the black flag he throws it overboard and shouts, “God save the king!” (Ch. 25).",
+      "activities": [
+        { "type": "draw", "prompt": "Draw Ben Gunn’s boat using **only Jim’s description in Chapter 22**. Label three parts.", "size": "small", "caption": "THE CORACLE", "labels": 3 },
+        { "type": "questions", "items": [
+          "Jim calls sneaking out of the stockade a “folly,” and says it helped save everyone. Can a bad decision turn out well and still be a bad decision?",
+          "On the ship Jim tells Israel Hands to regard him as his captain. Would you have dared? What’s your first order?"
+        ] },
+        { "type": "write", "title": "The note Jim didn’t leave",
+          "prompt": "Jim slipped away without telling anyone. Write the note he should have left on the table: where he’s going, why, and when he’ll be back.",
+          "starter": "Dear Captain Smollett, Doctor and Squire,", "lines": 5 }
+      ]
+    },
+    {
+      "title": "Pieces of Eight",
+      "kicker": "Chapters 27-30",
+      "icon": "coin",
+      "unlock": "after a visitor calls at dawn",
+      "footer": "Fun fact: Jim says the parrot’s endless “Pieces of eight!” sounds like “the clacking of a tiny mill” (Ch. 27).",
+      "activities": [
+        { "type": "take_a_side", "question": "Is Long John Silver a villain?", "sides": ["Villain", "Complicated"] },
+        { "type": "box", "title": "Jim’s promise",
+          "text": "The doctor says, “Jump! One jump, and you’re out, and we’ll run for it like antelopes.” Jim has given Silver his word and goes back. Would you have jumped? Why?", "lines": 3 }
+      ]
+    },
+    {
+      "title": "The Treasure Hunt",
+      "kicker": "Chapters 31-34",
+      "icon": "pick",
+      "unlock": "when you finish the book",
+      "footer": "Fun fact: Jim ends by saying that “oxen and wain-ropes” would not bring him back to the island (Ch. 34).",
+      "activities": [
+        { "type": "open_prediction", "from": "Quest 2", "prompt": "Which of your guesses came closest, and what did you never see coming?" },
+        { "type": "questions", "items": [
+          "The pirates panic at a voice singing from the trees, but Silver notes that a spirit wouldn’t have an echo. Good logic? How would *you* have kept your nerve?"
+        ] },
+        { "type": "write", "title": "A postcard from Silver",
+          "prompt": "Silver has slipped away with one bag of coins. Write the postcard he sends Jim a year later, in Silver’s voice.",
+          "starter": "Dear Jim,", "lines": 5 },
+        { "type": "rating", "prompt": "Best part of the whole book:" }
+      ]
+    }
+  ],
+  "guide": {
+    "sources": "Every answer below was checked against the Project Gutenberg text of Treasure Island (ebook #120), read through all 34 chapters. Chapter numbers are given so you can look things up in any edition. Where a question is about opinion, there is no answer key, only a note on what a good answer looks like. If your child’s answer disagrees with this sheet, check the book.",
+    "summary": "Young Jim Hawkins lives at his parents’ inn, the Admiral Benbow, when an old seaman called Billy Bones arrives, hiding from his former shipmates. After Bones dies, Jim and his mother take his sea-chest’s hidden packet, which holds a map of the island where the pirate Captain Flint buried his treasure. Squire Trelawney buys the schooner Hispaniola at Bristol and, with Dr. Livesey, takes Captain Smollett as master and Jim as cabin-boy. The ship’s cook, Long John Silver, is secretly the leader of a pirate crew, and Jim overhears the plot from inside an apple barrel. On the island the loyal party holds a stockade, Jim meets the marooned Ben Gunn, and then Jim sneaks away, cuts the Hispaniola loose, and takes her back from Israel Hands. Jim is captured by the pirates, but Silver, sensing the plan is failing, protects him and plays both sides. Ben Gunn has already moved the treasure to his cave, so the pirates find an empty pit, and Silver switches to the loyal side once more. The party carries the gold aboard, and at the first port Silver slips away with one bag of coins. Only five of the men who sailed come home.",
+    "dinner_question": "At dinner, ask: “Silver plans to kill the honest men on the ship, and he also protects Jim. Can someone be both? Where does the book want you to land?”",
+    "quests": [
+      {
+        "asks": "Three opinion questions about the old captain, and a drawing of him using only clues from the text.",
+        "answers": [
+          "Ch. 1: The captain promises Jim “a silver fourpenny on the first of every month” to keep a “weather-eye open for a seafaring man with one leg.” Jim says he paid “pretty dear” for it in nightmares.",
+          "Ch. 1: Dr. Livesey “never so much as moved” and spoke “perfectly calm and steady” while the captain held an open knife. He told him to put it away or he’d “hang at the next assizes.”",
+          "Ch. 1: The neighbours join in “for dear life, with the fear of death upon them,” each singing louder than the next “to avoid remark.”",
+          "Drawing clues (Ch. 1): tall, strong, heavy, nut-brown; tarry pigtail; soiled blue coat; sabre cut across one cheek; brass telescope; sea-chest."
+        ],
+        "good_answer": "Any opinion backed by something from the book. For the drawing, anything that shows at least three of the clues above (scar, pigtail, telescope, coat). Stick figures are fine."
+      },
+      {
+        "asks": "Two opinion questions, a drawing of the island from Jim’s description of the map, and a sealed prediction to open at the end.",
+        "answers": [
+          "Ch. 4: Jim’s mother says, “I’ll have my dues, and not a farthing over,” and keeps counting even when Jim urges her to run.",
+          "Ch. 6: Dr. Livesey says the one man he’s afraid of is the squire, “for you cannot hold your tongue.”",
+          "Map details (Ch. 6): about nine miles long and five across; “shaped, you might say, like a fat dragon standing up”; two fine land-locked harbours; a hill in the centre marked “The Spy-glass”; three red crosses, two on the north part and one in the southwest, with the words “Bulk of treasure here” next to the last."
+        ],
+        "good_answer": "Opinion questions: any argument with a reason from the chapter. Drawing: should show a dragon-like shape, a central hill, two harbours and three crosses. Sealed prediction: any real guess; it is opened in Quest 10."
+      },
+      {
+        "asks": "A crossword about names and things from Bristol, and one opinion question about Silver.",
+        "answers": [
+          "Ch. 8: Silver shouts for his men to catch Black Dog because he “hasn’t paid his score,” then laughs “until the tears ran down his cheeks” about forgetting the bill. Jim says he “would have gone bail for the innocence of Long John Silver.”",
+          "Crossword context, Ch. 9: Smollett says, “I don’t like this cruise; I don’t like the men; and I don’t like my officer,” and asks that the powder and arms be kept under the cabin and the map stay secret."
+        ],
+        "good_answer": "A reason from the text, not just yes or no. A strong answer notices that Silver’s big show is exactly what made Jim trust him."
+      },
+      {
+        "asks": "Four character cards, and two questions the child writes for you.",
+        "answers": [
+          "Silver: Ch. 10 he cooks, sings, keeps a parrot named Captain Flint, and is called Barbecue; Ch. 11 he plots in the apple barrel; Ch. 12 he says he has watered at the island and names its hills.",
+          "Smollett: Ch. 9 spots the danger first; Ch. 10 “thoroughly understood his business” as captain.",
+          "Trelawney: Ch. 10 “had followed the sea” and stands watches; Ch. 12 admits “you were right, and I was wrong” to the captain.",
+          "Livesey: Ch. 12 hears Jim’s warning and says, “Thank you, Jim,” loudly, “that was all I wanted to know,” so no one suspects. The loyal party is seven of twenty-six, one of them a boy."
+        ],
+        "good_answer": "For the cards, any answer that matches something from Ch. 10-12. For the stump-the-grown-up questions, the child checks your answers against the book."
+      },
+      {
+        "asks": "A six-panel comic about the shore adventure, plus one question about Ben Gunn’s food.",
+        "answers": [
+          "Ch. 13: Jim slips into a boat and curls up in the “fore-sheets.” The captain had suggested the afternoon ashore on purpose.",
+          "Ch. 15: Ben Gunn, “marooned three years agone,” has lived on “goats since then, and berries, and oysters” and dreams of cheese, “toasted, mostly.”"
+        ],
+        "good_answer": "Comic: one clear scene with at least two speech bubbles and a sound effect, using a real event from the chapters. Question: any food, with a reason."
+      },
+      {
+        "asks": "Invent one item for the people stuck at the stockade, with a recipe and an item card.",
+        "answers": [
+          "Ch. 17: the overloaded jolly-boat (five grown men plus powder, pork and bread) sinks “quite gently, in three feet of water.” No lives are lost, but only two of five guns still work and they leave “a good half of all our powder and provisions” behind.",
+          "Ch. 16: the doctor likes the stockade because of its spring; the ship’s cabin was well supplied, but “we had no water.”"
+        ],
+        "good_answer": "Strong answers solve a problem from the chapters (food, water, powder, guns, getting ashore dry). Reward silly ideas that still make sense in the story."
+      },
+      {
+        "asks": "Two opinion questions, a captain’s-log entry, and two truths and a lie.",
+        "answers": [
+          "Ch. 18: The squire thinks the flag is a target; the captain cries “Strike my colours!” and answers, “No, sir, not I.” The doctor says it was “good policy besides” because it “showed our enemies that we despised their cannonade.”",
+          "Ch. 20: Silver climbs the fence and the knoll on his crutch, says the men “have chosen me cap’n,” and asks for the chart. He offers either a ride to safety once the treasure is aboard or a split of the stores. Smollett refuses, so Silver spits in the spring and leaves.",
+          "Log format (Ch. 18): names and ranks, what happened, the loss of Redruth. A good entry has who came, what he wanted, and what the captain answered."
+        ],
+        "good_answer": "Opinion questions: a stated reason. The log should sound like a captain: plain and factual. For two truths and a lie, check that two statements are really in Ch. 19-21."
+      },
+      {
+        "asks": "A coracle drawing, two opinion questions, and a note Jim should have left.",
+        "answers": [
+          "Ch. 22: the coracle is a “rude, lop-sided framework of tough wood” covered with goat-skin, hair inside, with “one thwart set as low as possible,” “a kind of stretcher in the bows,” and “a double paddle.” Jim calls it “the first and the worst coracle ever made by man,” but “exceedingly light and portable.”",
+          "Ch. 22: Jim calls the escape “foolish” and “my second folly,” but also that it was “a help towards saving all of us.”",
+          "Ch. 25: Jim tells Hands, “you’ll please regard me as your captain until further notice.”"
+        ],
+        "good_answer": "Drawing: should show a round, small boat with a skin cover, a seat and a double paddle. Note: should say where Jim is going and why, and ideally admit it was risky."
+      },
+      {
+        "asks": "A take-a-side argument on Silver, and a short answer on Jim’s promise.",
+        "answers": [
+          "For “villain”: he plans to kill the loyal crew (Ch. 11) and kills an honest sailor named Tom (Ch. 14). For “complicated”: in Ch. 28-29 he stops his men from hurting Jim, and tells the doctor he has “the shakes upon me for the gallows” (Ch. 30).",
+          "More evidence, Ch. 29: when his crew tries to depose him, Silver blames his crew for the failed cruise, reminds them the doctor keeps them healthy and a ship is coming, throws down the chart, then resigns so they beg him to stay (“Barbecue forever!”).",
+          "Ch. 30: the doctor says, “Jump! One jump, and you’re out,” but Jim answers, “Silver trusted me; I passed my word, and back I go.”"
+        ],
+        "good_answer": "No right side. A strong answer names a real event from the book on each side and admits the other side has a fair point."
+      },
+      {
+        "asks": "Open the Quest 2 prediction, one question on the voice in the trees, a postcard from Silver, and a rating.",
+        "answers": [
+          "Ch. 32: Silver argues that a spirit wouldn’t have “an echo,” and soon the pirates recognise the voice as Ben Gunn’s. Ch. 33 confirms it: Ben Gunn worked “upon the superstitions of his former shipmates.”",
+          "Ch. 32: the pit holds a broken pick-shaft and boards branded WALRUS. Ch. 33: Ben Gunn had dug up the treasure and moved it to his cave about two months before the Hispaniola arrived.",
+          "Ch. 34: Silver sneaks off the ship in a shore boat with one sack of coin, “worth perhaps three or four hundred guineas.” Jim guesses he found his wife and the parrot."
+        ],
+        "good_answer": "Prediction: any honest scoring. Postcard: should sound like Silver (confident and flattering, with sea-words such as “shiver my timbers” and “you may lay to that”)."
+      }
+    ]
+  }
+}

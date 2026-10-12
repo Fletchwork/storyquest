@@ -1,0 +1,34 @@
+# --- OS / editor ---
+.DS_Store
+*.swp
+
+# --- logs / runtime ---
+*.log
+
+# --- secrets ---
+.env
+.env.*
+!.env.example
+!.env.sample
+.dev.vars
+*.token
+
+# --- python ---
+__pycache__/
+*.pyc
+.venv/
+.venv*/
+.pytest_cache/
+*.egg-info/
+
+# --- storyquest ---
+# personal Claude Code notes
+CLAUDE.local.md
+# packs carry a child's name: keep them out of the repo (examples/ is the exception)
+*.storyquest.json
+*-packet.pdf
+*-guide.pdf
+!docs/samples/*.pdf
+*-packet.html
+*-guide.html
+node_modules/

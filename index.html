@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self'; frame-src 'self' about:; object-src 'none'; base-uri 'none'">
+<title>StoryQuest</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="description" content="Make printable reading quest packets for any book, with any AI. Free, private, nothing uploaded.">
+<style>
+  :root { --bg:#faf7f0; --card:#fff; --ink:#1f1d1a; --muted:#6a645b; --line:#e3ddd0; --accent:#1f57a8; --accent-ink:#fff;
+    --ok:#2f7d32; --okbg:#eef7ee; --warn:#8a5a00; --warnbg:#fff6e0; --err:#a3321d; --errbg:#fdeeea; --code:#f3efe6; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg:#16171a; --card:#212327; --ink:#ecebe8; --muted:#a6a39c;
+    --line:#383a3f; --accent:#7fa8ec; --accent-ink:#0f1830; --ok:#8fd694; --okbg:#1c2b1e; --warn:#f0c46a; --warnbg:#2e2715;
+    --err:#f19a85; --errbg:#331c17; --code:#2a2c31; } }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.55 -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+  main { max-width:880px; margin:0 auto; padding:28px 16px 64px; }
+  h1 { font-size:2rem; margin:0 0 4px; letter-spacing:-.01em; }
+  .lede { font-size:1.1rem; color:var(--muted); margin:0 0 6px; }
+  .privacy { font-size:.92rem; color:var(--muted); margin:0 0 24px; }
+  .step { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:20px 20px 22px; margin:0 0 16px; }
+  .step h2 { font-size:1.2rem; margin:0 0 6px; display:flex; gap:10px; align-items:center; }
+  .num { flex:0 0 30px; height:30px; border-radius:50%; background:var(--accent); color:var(--accent-ink); display:inline-flex; align-items:center;
+    justify-content:center; font-size:.95rem; font-weight:700; }
+  .step p { margin:6px 0; }
+  .hint { color:var(--muted); font-size:.93rem; }
+  button, .btn { font:inherit; font-weight:600; border-radius:10px; border:1px solid var(--accent); background:var(--accent); color:var(--accent-ink);
+    padding:10px 16px; cursor:pointer; min-height:44px; }
+  button.secondary { background:transparent; color:var(--accent); }
+  button:disabled { opacity:.5; cursor:default; }
+  button:focus-visible, textarea:focus-visible, select:focus-visible, input:focus-visible { outline:3px solid var(--accent); outline-offset:2px; }
+  .row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-top:10px; }
+  textarea { width:100%; min-height:150px; font:13px/1.45 ui-monospace, Menlo, Consolas, monospace; background:var(--code); color:var(--ink);
+    border:1px solid var(--line); border-radius:10px; padding:10px; resize:vertical; }
+  .msgs { margin-top:10px; }
+  .msg { border-radius:10px; padding:9px 12px; margin:6px 0; font-size:.95rem; }
+  .msg.error { background:var(--errbg); color:var(--err); }
+  .msg.warning { background:var(--warnbg); color:var(--warn); }
+  .msg.info, .msg.ok { background:var(--okbg); color:var(--ok); }
+  details { margin-top:10px; }
+  summary { cursor:pointer; color:var(--accent); font-weight:600; }
+  .settings { display:grid; grid-template-columns:repeat(auto-fit, minmax(190px, 1fr)); gap:12px 16px; margin:12px 0 4px; }
+  .settings label { display:flex; flex-direction:column; gap:4px; font-size:.9rem; color:var(--muted); }
+  .settings input[type=text], .settings select { font:inherit; color:var(--ink); background:var(--card); border:1px solid var(--line); border-radius:8px; padding:8px 10px; min-height:42px; }
+  .settings .check { flex-direction:row; align-items:center; gap:8px; color:var(--ink); }
+  .settings .check input { width:20px; height:20px; }
+  .suggest { margin:14px 0 2px; }
+  .suggest[hidden] { display:none; }
+  .suggest h3 { font-size:.9rem; font-weight:600; color:var(--muted); margin:0 0 6px; }
+  .chips { display:flex; flex-wrap:wrap; gap:8px; }
+  .chip { display:flex; flex-direction:column; align-items:flex-start; gap:1px; text-align:left; background:var(--card); color:var(--ink);
+    border:1.5px solid var(--line); border-radius:12px; padding:7px 12px; min-height:44px; max-width:100%; font-weight:400; }
+  .chip b { font-weight:700; }
+  .chip span { font-size:.86rem; color:var(--muted); }
+  .chip:hover { border-color:var(--accent); }
+  .chip[aria-pressed="true"] { border-color:var(--accent); box-shadow:inset 0 0 0 1px var(--accent); background:var(--okbg); }
+  .suggest .hint { margin:0 0 6px; }
+  .lookstatus { margin:6px 0 0; font-size:.9rem; font-weight:600; color:var(--ok); }
+  .lookstatus:empty { display:none; }
+  .fits { margin:2px 0 0; font-size:.86rem; color:var(--muted); }
+  .tabs { display:flex; gap:6px; margin:14px 0 0; border-bottom:1px solid var(--line); }
+  .tab { background:transparent; color:var(--muted); border:0; border-bottom:3px solid transparent; border-radius:0; padding:8px 12px; }
+  .tab[aria-selected="true"] { color:var(--ink); border-bottom-color:var(--accent); }
+  .previewbox { background:#d9d6cf; border-radius:0 0 12px 12px; padding:16px 0; overflow:hidden; }
+  .scaler { transform-origin:top left; }
+  iframe.pv { border:0; width:900px; display:block; background:transparent; }
+  .printhelp li { margin:3px 0; }
+  .printbar { position:sticky; bottom:0; background:var(--card); padding:10px 0; margin-top:0; border-top:1px solid var(--line); z-index:2; }
+  .linkbtn { background:none; border:0; padding:0; min-height:0; color:var(--accent); font-weight:600; text-decoration:underline; cursor:pointer; }
+  .msg .src { display:block; margin-top:4px; font-weight:400; }
+  .hidden { display:none !important; }
+  footer { color:var(--muted); font-size:.88rem; margin-top:28px; }
+  a { color:var(--accent); }
+  kbd { font:12px ui-monospace, Menlo, monospace; background:var(--code); border:1px solid var(--line); border-radius:4px; padding:1px 5px; }
+</style>
+</head>
+<body>
+<main>
+  <h1><img src="favicon.svg" alt="" width="32" height="32" style="vertical-align:-3px; image-rendering:pixelated"> StoryQuest</h1>
+  <p class="lede">Printable activity worksheets to accompany any book your child (or you!) is reading. An AI writes the pages; this page lays them out for printing.</p>
+  <p class="privacy">Free. Everything happens on this page in your browser: nothing you paste is uploaded. Your last packet is kept on this device only, so you can come back to it.</p>
+  <div id="restored" class="msg info hidden" role="status">Showing the last packet made on this device. <button id="startOver" type="button" class="linkbtn">Start a new packet (and forget that one)</button></div>
+
+  <section class="step" aria-labelledby="s1">
+    <h2 id="s1"><span class="num">1</span>Copy the instructions for your AI</h2>
+    <p>Press the button, then paste into any chat AI you use: Claude, ChatGPT, Gemini, Copilot. Free versions work. Ones that can search the web get the book's details more accurate. The AI will ask your child's first name and age; a nickname is fine.</p>
+    <div class="row"><button id="copyPrompt" type="button">Copy the instructions</button><span id="copied" class="hint" role="status"></span></div>
+    <details><summary>Show the instructions instead</summary><textarea id="promptText" readonly aria-label="Instructions for your AI"></textarea></details>
+  </section>
+
+  <section class="step" aria-labelledby="s2">
+    <h2 id="s2"><span class="num">2</span>Answer its questions</h2>
+    <p>The AI asks about the book, your child and how many pages you want. Then it writes everything as one long block of text.</p>
+    <p class="hint">Most AIs put a <b>Copy</b> button on that block. Use it so you get every bit. If the AI stops partway, type <kbd>continue</kbd>, then copy both parts and paste them together.</p>
+  </section>
+
+  <section class="step" aria-labelledby="s3">
+    <h2 id="s3"><span class="num">3</span>Paste it here</h2>
+    <textarea id="pack" spellcheck="false" placeholder="Paste the whole block from your AI here" aria-label="Paste the AI's answer"></textarea>
+    <div class="row">
+      <button id="make" type="button">Make my pages</button>
+      <button id="example" type="button" class="secondary">Try the example (Treasure Island)</button>
+      <input id="file" type="file" accept=".json,application/json,text/plain" class="hidden">
+    </div>
+    <div id="msgs" class="msgs" aria-live="polite"></div>
+    <p class="hint">Saved a packet file earlier? <button id="openFile" type="button" class="linkbtn">Open it here</button>.</p>
+  </section>
+
+  <section class="step hidden" id="step4" aria-labelledby="s4">
+    <h2 id="s4"><span class="num">4</span>Check it and print</h2>
+    <p class="hint">Change anything below and the pages update. On a phone the preview is small; it prints full size.</p>
+    <div id="suggest" class="suggest" hidden>
+      <h3 id="suggestLabel">Suggested for this book</h3>
+      <p class="hint" id="suggestHint">Tap one to preview it.</p>
+      <div id="chips" class="chips" role="group" aria-labelledby="suggestLabel"></div>
+      <p id="lookStatus" class="lookstatus" role="status"></p>
+    </div>
+    <div class="settings">
+      <label>Child's name (leave blank for a class set)<input id="optName" type="text" autocomplete="off"></label>
+      <label>Look<select id="optTheme" aria-describedby="themeFits"></select><span id="themeFits" class="fits"></span></label>
+      <label>Writing lines<select id="optLines"><option value="college">Narrow (ages 10 and up)</option><option value="wide">Wide (ages 9 and under)</option></select></label>
+      <label>Paper<select id="optPaper"><option value="letter">US Letter</option><option value="a4">A4</option></select></label>
+      <label class="check"><input id="optHoles" type="checkbox"> Extra left margin for a binder or folder</label>
+      <label class="check"><input id="optPages" type="checkbox"> "Found it on page ___" lines (paper books)</label>
+    </div>
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" id="tabPacket" aria-selected="true" type="button">Kid's packet</button>
+      <button class="tab" role="tab" id="tabGuide" aria-selected="false" type="button">Grown-up's answer guide</button>
+    </div>
+    <div class="previewbox"><div class="scaler" id="scaler"><iframe class="pv" id="pv" title="Preview" sandbox="allow-same-origin allow-modals"></iframe></div></div>
+    <div class="row printbar">
+      <button id="printPacket" type="button">Print the kid's packet</button>
+      <button id="printGuide" type="button">Print the answer guide</button>
+      <button id="save" type="button" class="secondary">Save a copy to reprint later</button>
+    </div>
+    <p class="hint">"Save a copy" downloads a small file. Open it here any time to reprint, or to change the name and print one for each child.</p>
+    <details class="printhelp"><summary>Printing tips</summary>
+      <ul>
+        <li>To keep a PDF, choose <b>Save as PDF</b> as the printer.</li>
+        <li>Leave <b>Margins</b> on <b>Default</b> and <b>Scale</b> at <b>100%</b>.</li>
+        <li>Turn on <b>Background graphics</b> (Chrome, Edge) or <b>Print backgrounds</b> (Safari) so the colours print. Or pick the <b>Clean</b> look to save ink.</li>
+        <li>Each quest is exactly one sheet. The answer guide is usually two or three.</li>
+        <li><b>On a phone or tablet:</b> a laptop is easiest. On an iPhone or iPad, tap Print, then pinch outward on the preview, then Share, then Save to Files to keep a PDF. On Android, choose Save as PDF as the printer.</li>
+      </ul>
+    </details>
+  </section>
+
+  <footer>
+    StoryQuest is free and open source (MIT). <a href="https://github.com/Fletchwork/storyquest">Source and instructions on GitHub</a>.
+    Fonts: Silkscreen, Almendra, Pirata One, Audiowide, Baloo 2 and Patrick Hand (SIL Open Font License), Special Elite (Apache 2.0). Made by <a href="https://fletchwork.com">Fletchwork</a>.
+  </footer>
+</main>
+
+<script src="engine/art.js"></script>
+<script src="engine/storyquest.js"></script>
+<script src="engine/prompt.js"></script>
+<script>
+(function () {
+  'use strict';
+  const $ = (id) => document.getElementById(id);
+  const SQ = window.StoryQuest;
+  const KEY = 'storyquest:last-pack';
+  let pack = null, which = 'packet';
+
+  $('promptText').value = window.STORYQUEST_PROMPT;
+  Object.entries(SQ.THEMES).forEach(([k, t]) => { const o = document.createElement('option'); o.value = k; o.textContent = t.label; $('optTheme').appendChild(o); });
+
+  $('copyPrompt').addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(window.STORYQUEST_PROMPT); $('copied').textContent = 'Copied. Now paste it into your AI.'; }
+    catch (e) { $('promptText').closest('details').open = true; $('promptText').select(); $('copied').textContent = 'Select all the text below and copy it.'; }
+  });
+
+  function show(items) {
+    $('msgs').innerHTML = '';
+    items.forEach((m) => { const d = document.createElement('div'); d.className = 'msg ' + m.level; d.textContent = m.message; $('msgs').appendChild(d); });
+  }
+
+  function load(text, quiet) {
+    let p;
+    try { p = SQ.parseAIText(text); } catch (e) { show([{ level: 'error', message: e.message }]); return false; }
+    let issues;
+    try { issues = SQ.validate(p); SQ.renderPacket(p); SQ.renderGuide(p); }
+    catch (e) { show([{ level: 'error', message: 'Part of this pack is in a shape StoryQuest can’t read. Ask your AI: “Please check the pack follows the StoryQuest format and send it again as one code block.”' }]); return false; }
+    if (issues.some((i) => i.level === 'error')) { show(issues); return false; }
+    pack = p;
+    try { localStorage.setItem(KEY, JSON.stringify(p)); } catch (e) { /* private mode: fine */ }
+    const n = SQ.normalize(p);
+    $('optName').value = n.reader.name || '';
+    $('optTheme').value = n.theme;
+    $('lookStatus').textContent = '';
+    syncLook();
+    $('optLines').value = n.reader.lines;
+    $('optPaper').value = n.options.paper;
+    $('optHoles').checked = n.options.hole_punch_margin;
+    $('optPages').checked = n.options.page_numbers;
+    if (!quiet) {
+      const src = String((n.guide && n.guide.sources) || '');
+      const unsure = !src || /could ?n.t|could not|unable|not able|memory|did ?n.t (check|verify|read)|not (checked|verified)|unverified|may be wrong/i.test(src);
+      show([{ level: 'ok', message: `Got it: ${n.quests.length} quest pages for ${n.book.title}. Check them below.` },
+        { level: unsure ? 'warning' : 'info', message: (unsure ? 'Check the answers: ' : 'How the AI checked the book: ') + (src || 'it didn\u2019t say, so treat the answer guide as a guess.') }]
+        .concat(p.theme ? [] : [{ level: 'info', message: SQ.themeNotice(p) }]).concat(issues));
+    }
+    $('step4').classList.remove('hidden');
+    render();
+    if (!quiet) $('step4').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    return true;
+  }
+
+  // The chip strip above the settings follows the Look picker: the AI's suggestions if it gave any,
+  // otherwise every look with its "suits" line. The picker's own one-line note only shows when no chip does.
+  function syncLook() {
+    const theme = $('optTheme').value, t = SQ.THEMES[theme];
+    const sug = pack ? SQ.suggestions(pack) : [];
+    const html = !pack ? '' : sug.length ? SQ.suggestionsHTML(pack, theme) : SQ.looksHTML(theme);
+    $('chips').innerHTML = html;       // built by the engine; every AI string in it is escaped
+    $('suggestLabel').textContent = sug.length ? 'Suggested for this book' : 'Pick a look';
+    $('suggestHint').textContent = 'Tap one to preview it.';
+    $('suggest').hidden = !html;
+    const onChip = !sug.length || sug.some((x) => x.theme === theme);
+    $('themeFits').textContent = t && !onChip ? 'Suits: ' + t.fits : '';
+  }
+  $('chips').addEventListener('click', (e) => {
+    const b = e.target.closest('button[data-theme]');
+    if (!b || !SQ.THEMES[b.dataset.theme]) return;
+    const id = b.dataset.theme;
+    $('optTheme').value = id;
+    syncLook(); render();
+    const again = Array.from($('chips').querySelectorAll('button')).find((x) => x.dataset.theme === id);
+    if (again) again.focus();
+    $('lookStatus').textContent = 'Look: ' + SQ.THEMES[id].label + ', preview updated below';
+  });
+
+  function current() {
+    const p = JSON.parse(JSON.stringify(pack));
+    p.reader = Object.assign({}, p.reader, { name: $('optName').value.trim(), lines: $('optLines').value });
+    p.theme = $('optTheme').value;
+    p.options = Object.assign({}, p.options, { paper: $('optPaper').value, hole_punch_margin: $('optHoles').checked, page_numbers: $('optPages').checked });
+    return p;
+  }
+
+  let fitNotes = [];
+  function render() {
+    if (!pack) return;
+    const html = SQ.documentHTML(current(), which, { base: new URL('engine/', location.href).href });
+    const f = $('pv');
+    f.onload = async () => {
+      const doc = f.contentDocument;
+      // Fit needs the real fonts, but never leave the preview blank waiting on them.
+      try { await Promise.race([doc.fonts.ready, new Promise((r) => setTimeout(r, 1500))]); } catch (e) { /* older browsers */ }
+      fitNotes = SQ.fitPages(doc.querySelector('.sq'));
+      const extra = fitNotes.filter((n) => n.level === 'error' || which === 'packet');
+      document.querySelectorAll('.msg.fit').forEach((el) => el.remove());
+      extra.forEach((m) => { const d = document.createElement('div'); d.className = 'msg fit ' + (m.level === 'error' ? 'error' : 'info'); d.textContent = m.message; $('msgs').appendChild(d); });
+      f.style.height = doc.documentElement.scrollHeight + 'px';
+      scale();
+    };
+    f.srcdoc = html;
+  }
+
+  function scale() {
+    const box = $('scaler').parentElement, f = $('pv');
+    const s = Math.min(1, box.clientWidth / 900);
+    $('scaler').style.transform = `scale(${s})`;
+    box.style.height = (f.offsetHeight * s + 32) + 'px';
+  }
+  window.addEventListener('resize', scale);
+
+  function setTab(w) {
+    which = w;
+    $('tabPacket').setAttribute('aria-selected', String(w === 'packet'));
+    $('tabGuide').setAttribute('aria-selected', String(w === 'guide'));
+    render();
+  }
+  $('tabPacket').addEventListener('click', () => setTab('packet'));
+  $('tabGuide').addEventListener('click', () => setTab('guide'));
+  ['optName', 'optTheme', 'optLines', 'optPaper', 'optHoles', 'optPages'].forEach((id) =>
+    $(id).addEventListener(id === 'optName' ? 'change' : 'input', render));
+  $('optTheme').addEventListener('input', () => { $('lookStatus').textContent = ''; syncLook(); });
+
+  function printWhich(w) {
+    const go = () => { $('pv').contentWindow.focus(); $('pv').contentWindow.print(); };
+    if (which === w) return go();
+    setTab(w);
+    const f = $('pv'), prev = f.onload;
+    f.onload = async () => { await prev(); go(); };
+  }
+  $('printPacket').addEventListener('click', () => printWhich('packet'));
+  $('printGuide').addEventListener('click', () => printWhich('guide'));
+
+  $('make').addEventListener('click', () => load($('pack').value));
+  async function loadExample() {
+    try {
+      const r = await fetch('examples/treasure-island.json');
+      if (!r.ok) throw new Error(r.status);
+      $('pack').value = await r.text();
+      load($('pack').value);
+    } catch (e) { show([{ level: 'error', message: 'Couldn’t load the example. If you opened this file straight from your computer, use the website version instead.' }]); }
+  }
+  $('example').addEventListener('click', loadExample);
+  $('openFile').addEventListener('click', () => $('file').click());
+  $('file').addEventListener('change', async () => {
+    const f = $('file').files[0]; if (!f) return;
+    $('pack').value = await f.text(); load($('pack').value); $('file').value = '';
+  });
+  $('save').addEventListener('click', () => {
+    const p = current(), name = (p.book.title || 'storyquest').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([JSON.stringify(p, null, 2)], { type: 'application/json' }));
+    a.download = `${name}.storyquest.json`; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  });
+
+  // storyquest/#example opens straight into the demo (handy for sharing).
+  $('startOver').addEventListener('click', () => {
+    try { localStorage.removeItem(KEY); } catch (e) { /* nothing saved */ }
+    pack = null; $('pack').value = ''; $('msgs').innerHTML = ''; $('pv').onload = null; $('pv').srcdoc = '';
+    $('step4').classList.add('hidden'); $('chips').innerHTML = ''; $('restored').classList.add('hidden'); window.scrollTo(0, 0);
+  });
+  if (location.hash === '#example') loadExample();
+  else try { const saved = localStorage.getItem(KEY); if (saved) { $('pack').value = JSON.stringify(JSON.parse(saved), null, 2); if (load($('pack').value, true)) $('restored').classList.remove('hidden'); } }
+  catch (e) { /* nothing saved */ }
+})();
+</script>
+</body>
+</html>

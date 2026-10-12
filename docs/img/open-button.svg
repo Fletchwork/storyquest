@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="72" viewBox="0 0 360 72" role="img" aria-label="Open StoryQuest: free, runs in your browser">
+  <rect x="0" y="0" width="360" height="72" rx="14" fill="#5547a3"/>
+  <rect x="0" y="0" width="360" height="66" rx="14" fill="#6c5cc0"/>
+  <text x="180" y="33" text-anchor="middle" fill="#fff" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="24" font-weight="700">Open StoryQuest →</text>
+  <text x="180" y="53" text-anchor="middle" fill="#fff" fill-opacity=".85" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" font-weight="500">fletchwork.github.io · free, no install</text>
+</svg>
