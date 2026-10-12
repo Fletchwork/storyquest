@@ -72,21 +72,177 @@
   .linkbtn { background:none; border:0; padding:0; min-height:0; color:var(--accent); font-weight:600; text-decoration:underline; cursor:pointer; }
   .msg .src { display:block; margin-top:4px; font-weight:400; }
   .hidden { display:none !important; }
-  footer { color:var(--muted); font-size:.88rem; margin-top:28px; }
+  footer { color:var(--muted); font-size:.88rem; margin-top:28px; padding-top:18px; border-top:1px solid var(--line);
+    display:flex; flex-wrap:wrap; justify-content:space-between; gap:16px 28px; }
+  footer p { margin:0 0 6px; }
+  .foot-about { flex:1 1 320px; }
+  .foot-about .fonts { font-size:.85rem; }
+  .foot-made { display:grid; gap:6px; justify-items:end; align-content:start; text-align:right; }
+  .maker { display:flex; flex-wrap:wrap; align-items:center; gap:4px 6px; color:var(--ink); font-size:.95rem; margin:0; }
+  .maker .fw { display:block; color:var(--ink); padding-block:10px; margin-block:-10px; border-radius:2px; }
+  .maker .fw:hover { color:var(--accent); }
+  .maker svg { display:block; height:1.4em; width:auto; }
+  footer small { font-size:.85rem; }
+  footer small .fw { color:inherit; text-underline-offset:2px; }
+  .fw:focus-visible { outline:3px solid var(--accent); outline-offset:2px; }
+  @media (max-width: 560px) { .foot-made { justify-items:start; text-align:left; } }
   a { color:var(--accent); }
   kbd { font:12px ui-monospace, Menlo, monospace; background:var(--code); border:1px solid var(--line); border-radius:4px; padding:1px 5px; }
+  .top { display:flex; justify-content:space-between; align-items:center; gap:12px; }
+  .top h1 { margin:0; }
+  .ghlink { display:inline-flex; align-items:center; gap:6px; font-size:.9rem; font-weight:600; color:var(--ink); text-decoration:none;
+    border:1px solid var(--line); background:var(--card); border-radius:999px; padding:6px 14px; min-height:40px; flex:none; white-space:nowrap; }
+  @media (max-width: 480px) { .ghlink > span { font-size:0; } .ghlink .lbl { font-size:.9rem; } }
+  .ghlink:hover { border-color:var(--accent); color:var(--accent); }
+  .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+  /* How it works: a looping mock of the copy -> chat -> copy back -> print loop. */
+  .hiw { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px 16px 12px; margin:0 0 16px; }
+  .hiw summary { list-style:none; display:flex; justify-content:space-between; align-items:center; gap:12px; min-height:40px; margin:-4px 0 6px; cursor:pointer; }
+  .hiw summary::-webkit-details-marker { display:none; }
+  .hiw summary::after { content:"Hide"; color:var(--accent); font-weight:600; font-size:.9rem; }
+  .hiw:not([open]) summary { margin:-4px 0 -4px; }
+  .hiw:not([open]) summary::after { content:"Show"; }
+  .hiw summary:focus-visible { outline:3px solid var(--accent); outline-offset:2px; border-radius:6px; }
+  .hiw h2 { font-size:1.05rem; color:var(--muted); margin:0; }
+  .hiw-fit { width:100%; max-width:560px; margin:0 auto; }
+  .hiw-stage { width:440px; height:300px; position:relative; transform-origin:top left; font-size:14px; line-height:1.35; user-select:none; }
+  .hiw-win { position:absolute; inset:0; border:1px solid var(--line); border-radius:12px; overflow:hidden; background:var(--bg); }
+  .hiw-tabs { display:flex; gap:4px; padding:6px 8px 0; background:var(--code); border-bottom:1px solid var(--line); height:38px; }
+  .hiw-tab { display:flex; align-items:center; gap:6px; padding:0 12px; border-radius:8px 8px 0 0; color:var(--muted); font-weight:600; font-size:13px; white-space:nowrap; }
+  .hiw-tab img { width:14px; height:14px; image-rendering:pixelated; }
+  .hiw-ais { display:inline-flex; gap:3px; margin-left:2px; }
+  .hiw-ais svg { width:13px; height:13px; display:block; }
+  .hiw-stage.narrow .hiw-tab { padding:0 9px; }
+  .hiw-stage[data-tab="sq"] .hiw-tab.sq, .hiw-stage[data-tab="ai"] .hiw-tab.ai { background:var(--bg); color:var(--ink); }
+  .hiw-view { position:absolute; left:0; right:0; top:38px; bottom:0; opacity:0; transition:opacity .25s; }
+  .hiw-stage[data-tab="sq"] .hiw-view.sq, .hiw-stage[data-tab="ai"] .hiw-view.ai { opacity:1; }
+  .hiw-pane { position:absolute; inset:12px; opacity:0; transition:opacity .25s; }
+  .hiw-stage[data-sq="copy"] .p-copy, .hiw-stage[data-sq="paste"] .p-paste, .hiw-stage[data-sq="pages"] .p-pages { opacity:1; }
+  .hiw-stage[data-sq="pages"] .p-pages { transition-delay:.25s; }
+  .hiw-card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:12px 14px; }
+  .hiw-card h3 { font-size:15px; margin:0 0 4px; display:flex; align-items:center; gap:8px; }
+  .hiw-card h3 .n { flex:none; width:22px; height:22px; border-radius:50%; background:var(--accent); color:var(--accent-ink); display:inline-grid; place-items:center; font-size:12px; }
+  .hiw-card p { margin:0 0 10px; color:var(--muted); font-size:13px; }
+  .hiw-btn { display:inline-block; background:var(--accent); color:var(--accent-ink); border-radius:8px; padding:8px 14px; font-weight:600; font-size:13px; transition:background .2s; }
+  .hiw-btn.done { background:var(--ok); color:var(--card); }
+  .hiw-ta { height:84px; border:1px solid var(--line); border-radius:8px; background:var(--code); padding:8px; margin:0 0 10px;
+    font:12px/1.45 ui-monospace, Menlo, monospace; color:var(--muted); overflow:hidden; white-space:pre-wrap; }
+  .hiw-ta.full { color:var(--ink); white-space:pre; }
+  .hiw-pages { display:flex; justify-content:center; align-items:flex-start; gap:10px; padding-top:6px; }
+  .hiw-pages img { width:104px; height:135px; object-fit:cover; object-position:top; border:1px solid var(--line); border-radius:3px; background:#fff;
+    box-shadow:0 6px 16px rgba(0,0,0,.15); opacity:0; transform:translateY(14px) rotate(var(--r)); transition:opacity .4s, transform .5s; }
+  .hiw-stage.narrow .hiw-pages img { width:88px; height:114px; }
+  .hiw-stage[data-sq="pages"].shown .hiw-pages img { opacity:1; transform:translateY(0) rotate(var(--r)); }
+  .hiw-stage[data-sq="pages"].shown .hiw-pages img:nth-child(2) { transition-delay:.2s; }
+  .hiw-stage[data-sq="pages"].shown .hiw-pages img:nth-child(3) { transition-delay:.4s; }
+  .hiw-ready { text-align:center; font-weight:700; color:var(--ok); margin:12px 0 0; }
+  .hiw-chat { position:absolute; inset:0; display:flex; flex-direction:column; }
+  .hiw-log { flex:1; display:flex; flex-direction:column; justify-content:flex-end; gap:6px; padding:8px 12px; overflow:hidden; min-height:0; }
+  .hiw-log > * { flex-shrink:0; }
+  .hiw-msg { max-width:82%; padding:6px 10px; border-radius:12px; font-size:13px; }
+  .hiw-msg.me { align-self:flex-end; background:var(--accent); color:var(--accent-ink); border-bottom-right-radius:4px; }
+  .hiw-msg.me.paste { max-width:72%; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .hiw-msg.ai { align-self:flex-start; background:var(--card); border:1px solid var(--line); border-bottom-left-radius:4px; }
+  .hiw-code { align-self:flex-start; width:88%; background:var(--code); border:1px solid var(--line); border-radius:8px; position:relative;
+    font:12px/1.45 ui-monospace, Menlo, monospace; padding:34px 10px 8px; white-space:pre; overflow:hidden; color:var(--ink); }
+  .hiw-code::before { content:"json"; position:absolute; left:10px; top:8px; font:11px -apple-system, 'Segoe UI', sans-serif; color:var(--muted); }
+  .hiw-code .cp { position:absolute; top:4px; right:5px; font:600 12px -apple-system, 'Segoe UI', sans-serif; background:var(--card);
+    border:1px solid var(--line); border-radius:6px; padding:3px 9px; color:var(--ink); }
+  .hiw-code .cp.done { color:var(--ok); border-color:var(--ok); }
+  .hiw-input { margin:0 10px 10px; display:flex; align-items:center; gap:8px; border:1px solid var(--line); border-radius:18px; background:var(--card);
+    padding:6px 6px 6px 12px; min-height:36px; }
+  .hiw-input .txt { flex:1; color:var(--muted); font-size:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .hiw-input .txt.on { color:var(--ink); }
+  .hiw-input .send { flex:none; width:26px; height:26px; border-radius:50%; background:var(--accent); color:var(--accent-ink); display:grid; place-items:center; font-size:14px; }
+  .hiw-cursor { position:absolute; left:0; top:0; width:20px; height:20px; z-index:5; pointer-events:none;
+    transition:transform .7s cubic-bezier(.45,.05,.3,1); filter:drop-shadow(0 1px 1px rgba(0,0,0,.35)); }
+  .hiw-ring { position:absolute; left:-14px; top:-14px; width:28px; height:28px; border-radius:50%; border:3px solid var(--accent); opacity:0; }
+  .hiw-cursor.tap .hiw-ring { animation:hiwtap .5s ease-out; }
+  @keyframes hiwtap { from { opacity:.95; transform:scale(.3); } to { opacity:0; transform:scale(1.5); } }
+  .hiw-bar { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:10px; }
+  .hiw-steps { display:grid; grid-template-columns:repeat(4, 1fr); gap:6px; margin-top:12px; }
+  .hiw-steps button { min-height:40px; padding:6px 4px; border-radius:10px; border:1px solid var(--line); background:var(--card); color:var(--muted);
+    font-size:.84rem; font-weight:600; line-height:1.2; display:flex; align-items:center; justify-content:center; gap:5px; }
+  .hiw-steps button b { width:20px; height:20px; flex:none; border-radius:50%; background:var(--line); color:var(--ink); display:inline-grid; place-items:center; font-size:.75rem; }
+  .hiw-steps button:hover { border-color:var(--accent); color:var(--ink); }
+  .hiw-steps button.on { background:var(--accent); border-color:var(--accent); color:var(--accent-ink); }
+  .hiw-steps button.on b { background:var(--accent-ink); color:var(--accent); }
+  .hiw-cap { margin:0; font-weight:600; min-height:2.8em; display:flex; align-items:center; }
+  .hiw-toggle { flex:none; width:44px; height:44px; min-height:44px; padding:0; display:grid; place-items:center; border-radius:50%; }
+  .hiw-toggle svg { width:16px; height:16px; }
+  @media (prefers-reduced-motion: reduce) { .hiw-cursor, .hiw-view, .hiw-pane, .hiw-pages img { transition:none; } }
 </style>
 </head>
 <body>
 <main>
-  <h1><img src="favicon.svg" alt="" width="32" height="32" style="vertical-align:-3px; image-rendering:pixelated"> StoryQuest</h1>
-  <p class="lede">Printable activity worksheets to accompany any book your child (or you!) is reading. An AI writes the pages; this page lays them out for printing.</p>
+  <div class="top">
+    <h1><img src="favicon.svg" alt="" width="32" height="32" style="vertical-align:-3px; image-rendering:pixelated"> StoryQuest</h1>
+    <a class="ghlink" href="https://github.com/Fletchwork/storyquest" aria-label="View StoryQuest on GitHub"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path></svg><span>View on <span class="lbl">GitHub</span></span></a>
+  </div>
+  <p class="lede" style="margin-top:6px">Printable activity worksheets to accompany any book your child (or you!) is reading. An AI writes the pages; this page lays them out for printing.</p>
   <p class="privacy">Free. Everything happens on this page in your browser: nothing you paste is uploaded. Your last packet is kept on this device only, so you can come back to it.</p>
   <div id="restored" class="msg info hidden" role="status">Showing the last packet made on this device. <button id="startOver" type="button" class="linkbtn">Start a new packet (and forget that one)</button></div>
 
+  <details class="hiw" id="hiw" open>
+    <summary><h2 id="hiwTitle">How it works</h2></summary>
+    <ol class="sr-only">
+      <li>Step 1: copy the instructions from this page.</li>
+      <li>Step 2: paste them into the AI chatbot you already use, such as ChatGPT, Gemini, Claude or Copilot. Answer its questions about the book and your child. When it writes one long block of text, press its Copy button. If it stops partway, type continue.</li>
+      <li>Step 3: paste that block back into this page and press Make my pages.</li>
+      <li>Step 4: check the pages and print.</li>
+    </ol>
+    <div class="hiw-fit" id="hiwFit" aria-hidden="true">
+      <div class="hiw-stage" id="hiwStage" data-tab="sq" data-sq="copy">
+        <div class="hiw-win">
+          <div class="hiw-tabs">
+            <div class="hiw-tab sq" data-t="tabSq"><img src="favicon.svg" alt="">StoryQuest</div>
+            <div class="hiw-tab ai" data-t="tabAi">Your AI Chatbot<span class="hiw-ais"><svg aria-hidden="true" focusable="false" fill="currentColor" fill-rule="evenodd" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.205 8.658v-2.26c0-.19.072-.333.238-.428l4.543-2.616c.619-.357 1.356-.523 2.117-.523 2.854 0 4.662 2.212 4.662 4.566 0 .167 0 .357-.024.547l-4.71-2.759a.797.797 0 00-.856 0l-5.97 3.473zm10.609 8.8V12.06c0-.333-.143-.57-.429-.737l-5.97-3.473 1.95-1.118a.433.433 0 01.476 0l4.543 2.617c1.309.76 2.189 2.378 2.189 3.948 0 1.808-1.07 3.473-2.76 4.163zM7.802 12.703l-1.95-1.142c-.167-.095-.239-.238-.239-.428V5.899c0-2.545 1.95-4.472 4.591-4.472 1 0 1.927.333 2.712.928L8.23 5.067c-.285.166-.428.404-.428.737v6.898zM12 15.128l-2.795-1.57v-3.33L12 8.658l2.795 1.57v3.33L12 15.128zm1.796 7.23c-1 0-1.927-.332-2.712-.927l4.686-2.712c.285-.166.428-.404.428-.737v-6.898l1.974 1.142c.167.095.238.238.238.428v5.233c0 2.545-1.974 4.472-4.614 4.472zm-5.637-5.303l-4.544-2.617c-1.308-.761-2.188-2.378-2.188-3.948A4.482 4.482 0 014.21 6.327v5.423c0 .333.143.571.428.738l5.947 3.449-1.95 1.118a.432.432 0 01-.476 0zm-.262 3.9c-2.688 0-4.662-2.021-4.662-4.519 0-.19.024-.38.047-.57l4.686 2.71c.286.167.571.167.856 0l5.97-3.448v2.26c0 .19-.07.333-.237.428l-4.543 2.616c-.619.357-1.356.523-2.117.523zm5.899 2.83a5.947 5.947 0 005.827-4.756C22.287 18.339 24 15.84 24 13.296c0-1.665-.713-3.282-1.998-4.448.119-.5.19-.999.19-1.498 0-3.401-2.759-5.947-5.946-5.947-.642 0-1.26.095-1.88.31A5.962 5.962 0 0010.205 0a5.947 5.947 0 00-5.827 4.757C1.713 5.447 0 7.945 0 10.49c0 1.666.713 3.283 1.998 4.448-.119.5-.19 1-.19 1.499 0 3.401 2.759 5.946 5.946 5.946.642 0 1.26-.095 1.88-.309a5.96 5.96 0 004.162 1.713z"></path></svg><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" fill="#3186FF"></path><path d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" fill="url(#sqge-lobe-icons-gemini-0-_R_0_)"></path><path d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" fill="url(#sqge-lobe-icons-gemini-1-_R_0_)"></path><path d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" fill="url(#sqge-lobe-icons-gemini-2-_R_0_)"></path><defs><linearGradient gradientUnits="userSpaceOnUse" id="sqge-lobe-icons-gemini-0-_R_0_" x1="7" x2="11" y1="15.5" y2="12"><stop stop-color="#08B962"></stop><stop offset="1" stop-color="#08B962" stop-opacity="0"></stop></linearGradient><linearGradient gradientUnits="userSpaceOnUse" id="sqge-lobe-icons-gemini-1-_R_0_" x1="8" x2="11.5" y1="5.5" y2="11"><stop stop-color="#F94543"></stop><stop offset="1" stop-color="#F94543" stop-opacity="0"></stop></linearGradient><linearGradient gradientUnits="userSpaceOnUse" id="sqge-lobe-icons-gemini-2-_R_0_" x1="3.5" x2="17.5" y1="13.5" y2="12"><stop stop-color="#FABC12"></stop><stop offset=".46" stop-color="#FABC12" stop-opacity="0"></stop></linearGradient></defs></svg><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4.709 15.955l4.72-2.647.08-.23-.08-.128H9.2l-.79-.048-2.698-.073-2.339-.097-2.266-.122-.571-.121L0 11.784l.055-.352.48-.321.686.06 1.52.103 2.278.158 1.652.097 2.449.255h.389l.055-.157-.134-.098-.103-.097-2.358-1.596-2.552-1.688-1.336-.972-.724-.491-.364-.462-.158-1.008.656-.722.881.06.225.061.893.686 1.908 1.476 2.491 1.833.365.304.145-.103.019-.073-.164-.274-1.355-2.446-1.446-2.49-.644-1.032-.17-.619a2.97 2.97 0 01-.104-.729L6.283.134 6.696 0l.996.134.42.364.62 1.414 1.002 2.229 1.555 3.03.456.898.243.832.091.255h.158V9.01l.128-1.706.237-2.095.23-2.695.08-.76.376-.91.747-.492.584.28.48.685-.067.444-.286 1.851-.559 2.903-.364 1.942h.212l.243-.242.985-1.306 1.652-2.064.73-.82.85-.904.547-.431h1.033l.76 1.129-.34 1.166-1.064 1.347-.881 1.142-1.264 1.7-.79 1.36.073.11.188-.02 2.856-.606 1.543-.28 1.841-.315.833.388.091.395-.328.807-1.969.486-2.309.462-3.439.813-.042.03.049.061 1.549.146.662.036h1.622l3.02.225.79.522.474.638-.079.485-1.215.62-1.64-.389-3.829-.91-1.312-.329h-.182v.11l1.093 1.068 2.006 1.81 2.509 2.33.127.578-.322.455-.34-.049-2.205-1.657-.851-.747-1.926-1.62h-.128v.17l.444.649 2.345 3.521.122 1.08-.17.353-.608.213-.668-.122-1.374-1.925-1.415-2.167-1.143-1.943-.14.08-.674 7.254-.316.37-.729.28-.607-.461-.322-.747.322-1.476.389-1.924.315-1.53.286-1.9.17-.632-.012-.042-.14.018-1.434 1.967-2.18 2.945-1.726 1.845-.414.164-.717-.37.067-.662.401-.589 2.388-3.036 1.44-1.882.93-1.086-.006-.158h-.055L4.132 18.56l-1.13.146-.487-.456.061-.746.231-.243 1.908-1.312-.006.006z" fill="#D97757" fill-rule="nonzero"></path></svg><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2.531 2.531 0 00-2.484 2.087l-1.263 6.937.314-1.08a2.528 2.528 0 012.424-1.833h4.284l1.797.706 1.731-.706h-.505a2.528 2.528 0 01-2.423-1.829l-.715-2.453z" fill="url(#sqco-lobe-icons-copilot-0-_R_0_)" transform="translate(0 1)"></path><path d="M6.726 20.16A2.528 2.528 0 009.152 22h1.566c1.37 0 2.49-1.1 2.525-2.48l.17-6.69-.357 1.228a2.528 2.528 0 01-2.423 1.83h-4.32l-1.54-.842-1.667.843h.497c1.124 0 2.113.75 2.426 1.84l.697 2.432z" fill="url(#sqco-lobe-icons-copilot-1-_R_0_)" transform="translate(0 1)"></path><path d="M15 0H6.252c-2.5 0-4 3.331-5 6.662-1.184 3.947-2.734 9.225 1.75 9.225H6.78c1.13 0 2.12-.753 2.43-1.847.657-2.317 1.809-6.359 2.713-9.436.46-1.563.842-2.906 1.43-3.742A1.97 1.97 0 0115 0" fill="url(#sqco-lobe-icons-copilot-2-_R_0_)" transform="translate(0 1)"></path><path d="M15 0H6.252c-2.5 0-4 3.331-5 6.662-1.184 3.947-2.734 9.225 1.75 9.225H6.78c1.13 0 2.12-.753 2.43-1.847.657-2.317 1.809-6.359 2.713-9.436.46-1.563.842-2.906 1.43-3.742A1.97 1.97 0 0115 0" fill="url(#sqco-lobe-icons-copilot-3-_R_0_)" transform="translate(0 1)"></path><path d="M9 22h8.749c2.5 0 4-3.332 5-6.663 1.184-3.948 2.734-9.227-1.75-9.227H17.22c-1.129 0-2.12.754-2.43 1.848a1149.2 1149.2 0 01-2.713 9.437c-.46 1.564-.842 2.907-1.43 3.743A1.97 1.97 0 019 22" fill="url(#sqco-lobe-icons-copilot-4-_R_0_)" transform="translate(0 1)"></path><path d="M9 22h8.749c2.5 0 4-3.332 5-6.663 1.184-3.948 2.734-9.227-1.75-9.227H17.22c-1.129 0-2.12.754-2.43 1.848a1149.2 1149.2 0 01-2.713 9.437c-.46 1.564-.842 2.907-1.43 3.743A1.97 1.97 0 019 22" fill="url(#sqco-lobe-icons-copilot-5-_R_0_)" transform="translate(0 1)"></path><defs><radialGradient cx="85.44%" cy="100.653%" fx="85.44%" fy="100.653%" gradientTransform="scale(-.8553 -1) rotate(50.927 2.041 -1.946)" id="sqco-lobe-icons-copilot-0-_R_0_" r="105.116%"><stop offset="9.6%" stop-color="#00AEFF"></stop><stop offset="77.3%" stop-color="#2253CE"></stop><stop offset="100%" stop-color="#0736C4"></stop></radialGradient><radialGradient cx="18.143%" cy="32.928%" fx="18.143%" fy="32.928%" gradientTransform="scale(.8897 1) rotate(52.069 .193 .352)" id="sqco-lobe-icons-copilot-1-_R_0_" r="95.612%"><stop offset="0%" stop-color="#FFB657"></stop><stop offset="63.4%" stop-color="#FF5F3D"></stop><stop offset="92.3%" stop-color="#C02B3C"></stop></radialGradient><radialGradient cx="82.987%" cy="-9.792%" fx="82.987%" fy="-9.792%" gradientTransform="scale(-1 -.9441) rotate(-70.872 .142 1.17)" id="sqco-lobe-icons-copilot-4-_R_0_" r="140.622%"><stop offset="6.6%" stop-color="#8C48FF"></stop><stop offset="50%" stop-color="#F2598A"></stop><stop offset="89.6%" stop-color="#FFB152"></stop></radialGradient><linearGradient id="sqco-lobe-icons-copilot-2-_R_0_" x1="39.465%" x2="46.884%" y1="12.117%" y2="103.774%"><stop offset="15.6%" stop-color="#0D91E1"></stop><stop offset="48.7%" stop-color="#52B471"></stop><stop offset="65.2%" stop-color="#98BD42"></stop><stop offset="93.7%" stop-color="#FFC800"></stop></linearGradient><linearGradient id="sqco-lobe-icons-copilot-3-_R_0_" x1="45.949%" x2="50%" y1="0%" y2="100%"><stop offset="0%" stop-color="#3DCBFF"></stop><stop offset="24.7%" stop-color="#0588F7" stop-opacity="0"></stop></linearGradient><linearGradient id="sqco-lobe-icons-copilot-5-_R_0_" x1="83.507%" x2="83.453%" y1="-6.106%" y2="21.131%"><stop offset="5.8%" stop-color="#F8ADFA"></stop><stop offset="70.8%" stop-color="#A86EDD" stop-opacity="0"></stop></linearGradient></defs></svg></span></div>
+          </div>
+          <div class="hiw-view sq">
+            <div class="hiw-pane p-copy"><div class="hiw-card">
+              <h3><span class="n">1</span>Copy the instructions for your AI</h3>
+              <p>Then paste them into any AI chatbot you use.</p>
+              <span class="hiw-btn" data-t="copyBtn">Copy the instructions</span>
+            </div></div>
+            <div class="hiw-pane p-paste"><div class="hiw-card">
+              <h3><span class="n">3</span>Paste it here</h3>
+              <div class="hiw-ta" data-t="ta">Paste the whole block from your AI here</div>
+              <span class="hiw-btn" data-t="makeBtn">Make my pages</span>
+            </div></div>
+            <div class="hiw-pane p-pages">
+              <div class="hiw-pages">
+                <img src="docs/img/demo/cover.jpg" loading="lazy" decoding="async" alt="" style="--r:-4deg">
+                <img src="docs/img/demo/quest.jpg" loading="lazy" decoding="async" alt="" style="--r:0deg">
+                <img src="docs/img/demo/crossword.jpg" loading="lazy" decoding="async" alt="" style="--r:4deg">
+              </div>
+              <p class="hiw-ready">Ready to print!</p>
+            </div>
+          </div>
+          <div class="hiw-view ai">
+            <div class="hiw-chat">
+              <div class="hiw-log" data-t="log"></div>
+              <div class="hiw-input" data-t="input"><span class="txt" data-t="inputTxt">Message…</span><span class="send" data-t="send">↑</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="hiw-cursor" data-t="cursor"><svg viewBox="0 0 20 20" width="20" height="20"><path d="M3 1.5v15.2l4.1-4 2.7 6.1 2.6-1.1-2.6-6h5.8z" fill="#fff" stroke="#1f1d1a" stroke-width="1.3" stroke-linejoin="round"/></svg><span class="hiw-ring"></span></div>
+      </div>
+    </div>
+    <div class="hiw-steps" id="hiwSteps" role="group" aria-label="Jump to a step in the animation">
+      <button type="button" data-step="1" aria-label="Step 1: copy the instructions"><b>1</b>Copy</button>
+      <button type="button" data-step="2" aria-label="Step 2: ask your AI"><b>2</b>Ask AI</button>
+      <button type="button" data-step="3" aria-label="Step 3: paste it back"><b>3</b>Paste back</button>
+      <button type="button" data-step="4" aria-label="Step 4: print"><b>4</b>Print</button>
+    </div>
+    <div class="hiw-bar">
+      <p class="hiw-cap" id="hiwCap" aria-hidden="true">Step 1: Copy the instructions.</p>
+      <button id="hiwToggle" type="button" class="secondary hiw-toggle" aria-label="Pause the how it works animation">Pause</button>
+    </div>
+  </details>
+
   <section class="step" aria-labelledby="s1">
     <h2 id="s1"><span class="num">1</span>Copy the instructions for your AI</h2>
-    <p>Press the button, then paste into any chat AI you use: Claude, ChatGPT, Gemini, Copilot. Free versions work. Ones that can search the web get the book's details more accurate. The AI will ask your child's first name and age; a nickname is fine.</p>
+    <p>Press the button, then paste into any AI chatbot you use: Claude, ChatGPT, Gemini, Copilot. Free versions work. Ones that can search the web get the book's details more accurate. The AI will ask your child's first name and age; a nickname is fine.</p>
     <div class="row"><button id="copyPrompt" type="button">Copy the instructions</button><span id="copied" class="hint" role="status"></span></div>
     <details><summary>Show the instructions instead</summary><textarea id="promptText" readonly aria-label="Instructions for your AI"></textarea></details>
   </section>
@@ -149,8 +305,14 @@
   </section>
 
   <footer>
-    StoryQuest is free and open source (MIT). <a href="https://github.com/Fletchwork/storyquest">Source and instructions on GitHub</a>.
-    Fonts: Silkscreen, Almendra, Pirata One, Audiowide, Baloo 2 and Patrick Hand (SIL Open Font License), Special Elite (Apache 2.0). Made by <a href="https://fletchwork.com">Fletchwork</a>.
+    <div class="foot-about">
+      <p>StoryQuest is free and open source (MIT). <a href="https://github.com/Fletchwork/storyquest">Source and instructions on GitHub</a>.</p>
+      <p class="fonts">Fonts: Silkscreen, Almendra, Pirata One, Audiowide, Baloo 2 and Patrick Hand (SIL Open Font License), Special Elite (Apache 2.0).</p>
+    </div>
+    <div class="foot-made">
+      <p class="maker">Made with love in Florida by <a class="fw" href="https://fletchwork.com" target="_blank" rel="noopener" aria-label="Fletchwork (opens in a new tab)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1380.23 326.84" fill="currentColor" aria-hidden="true" focusable="false" width="104" height="25"> <g transform="translate(-13.02 -124.60)"> <path d="M1272.54,451.44c0.61-3.16,1.26-6.33,1.96-9.48c2.64-11.85,5.3-23.7,7.95-35.54c0.06-0.26,0.06-0.53,0.1-0.94 c-1.67,0-3.26,0-4.85,0c-18.56,0.04-37.12,0.09-55.67,0.12c-23.04,0.03-46.08,0.04-69.12,0.08c-35.72,0.05-71.43,0.12-107.15,0.18 c-11.8,0.02-23.6,0.04-35.4,0.06c-35.8,0.06-71.59,0.12-107.39,0.18c-11.76,0.02-23.52,0.04-35.28,0.06 c-35.8,0.06-71.59,0.12-107.39,0.18c-11.8,0.02-23.6,0.04-35.4,0.06c-35.76,0.06-71.51,0.12-107.27,0.18 c-11.8,0.02-23.6,0.04-35.4,0.06c-35.76,0.06-71.51,0.12-107.27,0.18c-11.8,0.02-23.6,0.04-35.4,0.06 c-35.76,0.06-71.51,0.12-107.27,0.18c-11.84,0.02-23.68,0.04-35.52,0.06c-35.72,0.06-71.43,0.12-107.15,0.18 c-11.84,0.02-23.68,0.04-35.52,0.06c-35.72,0.06-71.43,0.12-107.15,0.18c-10.76,0.02-21.52,0.04-32.28,0.05c-0.47,0-0.95,0-1.65,0 c2.05-8.23,4.05-16.31,6.09-24.47c454.21-0.09,908.39-0.09,1362.66,0c-0.31,0.34-0.71,0.61-1.11,0.86 c-35.59,22.18-71.18,44.36-106.77,66.54c-0.42,0.26-0.79,0.61-1.19,0.92C1272.72,451.44,1272.6,451.44,1272.54,451.44z"/> <path d="M164.16,124.6c26.54,0,52.97,0,79.59,0c-0.18,0.8-0.28,1.42-0.44,2.01c-2.89,10.44-5.81,20.88-8.64,31.34 c-0.34,1.24-0.82,1.63-2.11,1.63c-36.04-0.04-72.07-0.03-108.11-0.03c-0.44,0-0.88,0.03-1.32,0c-0.76-0.05-1.14,0.25-1.34,1.02 c-3.77,14.47-7.56,28.94-11.35,43.4c-0.09,0.34-0.14,0.7-0.26,1.34c25.44,0,50.78,0,76.29,0c-0.15,0.72-0.21,1.15-0.32,1.56 c-2.84,10.46-5.72,20.9-8.5,31.38c-0.36,1.37-0.95,1.7-2.29,1.7c-24.32-0.04-48.63-0.03-72.95-0.03c-1.78,0-1.76,0.01-2.22,1.74 c-3.61,13.48-7.24,26.95-10.86,40.43c-4.45,16.56-8.88,33.13-13.33,49.69c-2.35,8.77-4.74,17.52-7.06,26.3 c-0.27,1.02-0.74,1.3-1.75,1.29c-14-0.07-28-0.09-42-0.13c-1.45,0-1.46-0.02-1.08-1.42c4.94-18.42,9.89-36.84,14.83-55.26 c4.48-16.68,8.95-33.37,13.42-50.05c6.15-22.9,12.3-45.8,18.45-68.7c5.14-19.15,10.29-38.31,15.43-57.46 c0.47-1.74,0.47-1.74,2.33-1.74C113.73,124.6,138.88,124.6,164.16,124.6z"/> <path d="M939.87,194.93c4.51-16.81,9-33.53,13.49-50.25c1.19-4.44,2.41-8.87,3.57-13.32c0.22-0.83,0.58-1.16,1.48-1.16 c11.32,0.04,22.63,0.04,33.95,0.06c1.39,0,1.44,0.08,1.07,1.46c-4.57,17.11-9.14,34.22-13.71,51.33 c-6.64,24.87-13.29,49.75-19.93,74.62c-6.25,23.41-12.5,46.81-18.76,70.22c-3.17,11.86-6.35,23.71-9.5,35.58 c-0.23,0.87-0.63,1.15-1.49,1.14c-12.04-0.02-24.07-0.02-36.11,0c-0.87,0-1.26-0.28-1.49-1.15c-3.93-14.84-7.9-29.67-11.86-44.5 c-4.28-16.03-8.56-32.05-12.84-48.08c-0.08-0.29-0.26-0.56-0.39-0.84c-0.16,0.28-0.39,0.55-0.47,0.85 c-3.75,14.06-7.49,28.13-11.24,42.19c-4.47,16.77-8.94,33.53-13.39,50.3c-0.26,0.97-0.71,1.23-1.67,1.23 c-12.04-0.03-24.07-0.03-36.11,0c-1.02,0-1.47-0.33-1.76-1.31c-3.81-13.13-7.65-26.25-11.49-39.38 c-4.14-14.16-8.27-28.32-12.41-42.48c-1.39-4.76-2.79-9.51-4.17-14.28c-0.37-1.29-0.29-1.41,1.02-1.4 c11.64,0.06,23.27,0.15,34.91,0.19c1,0,1.27,0.5,1.5,1.31c2.74,9.69,5.51,19.38,8.28,29.07c0.13,0.44,0.36,0.85,0.55,1.28 c0.21-0.44,0.49-0.86,0.62-1.32c3.67-13.67,7.32-27.34,10.98-41.01c3.86-14.41,7.73-28.81,11.56-43.22 c0.27-1.01,0.71-1.32,1.73-1.32c14.04-0.02,28.07-0.07,42.11-0.16c1.2-0.01,1.67,0.4,1.96,1.52c2.82,10.67,5.7,21.32,8.56,31.98 c2.95,11.01,5.9,22.01,8.85,33.02c1.58,5.91,3.16,11.82,4.77,17.72c0.09,0.35,0.36,0.65,0.54,0.97c0.15-0.31,0.36-0.61,0.45-0.94 c2.8-10.47,5.56-20.94,8.37-31.41c2.77-10.31,5.59-20.6,8.37-30.91C933.14,220.05,936.48,207.53,939.87,194.93z"/> <path d="M163.91,365.22l41.15-155.96c0,0,0,0,35.18,0c0,0,0,0-32.54,123.32c0,0,0,0,53.61,0c0,0,0,0-8.61,32.63 C252.7,365.22,252.7,365.22,163.91,365.22z"/> <path d="M271.13,365.22l41.15-155.96c0,0,0,0,88.36,0c0,0,0,0-8.61,32.63c0,0,0,0-53.19,0c0,0,0,0-7.44,28.18c0,0,0,0,52.55,0 c0,0,0,0-8.61,32.63c0,0,0,0-52.55,0c0,0,0,0-7.88,29.88c0,0,0,0,54.03,0c0,0,0,0-8.61,32.63 C360.34,365.22,360.34,365.22,271.13,365.22z"/> <path d="M411.2,365.22l32.54-123.32c0,0,0,0-35.17,0c0,0,0,0,8.61-32.63c0,0,0,0,105.52,0c0,0,0,0-8.61,32.63c0,0,0,0-35.17,0 c0,0,0,0-32.54,123.32C446.37,365.22,446.37,365.22,411.2,365.22z"/> <path d="M509.54,287.24c12.58-47.68,54.82-80.1,104.2-80.1c6.99,0,14.88,0.64,22.38,1.91c0,0,0,0-8.55,32.42 c-6.45-1.27-13.43-2.12-19.99-2.12c-30.09,0-53.81,18.43-61.58,47.89c-7.77,29.45,6.22,47.89,36.31,47.89 c6.57,0,14-0.85,21.11-2.12c0,0,0,0-8.55,32.42c-8.18,1.27-16.4,1.91-23.39,1.91C522.1,367.34,496.96,334.92,509.54,287.24z"/> <path d="M699.18,365.22l16.38-62.09c0,0,0,0-49.58,0c0,0,0,0-16.38,62.09c0,0,0,0-35.17,0c0,0,0,0,41.15-155.96c0,0,0,0,35.17,0 c0,0,0,0-15.93,60.39c0,0,0,0,49.58,0c0,0,0,0,15.93-60.39c0,0,0,0,35.17,0c0,0,0,0-41.15,155.96 C734.35,365.22,734.35,365.22,699.18,365.22z"/> <path d="M970.43,286.89c3.4-47.68,36.6-81.16,77.94-81.16c41.34,0,69.96,33.48,66.57,81.16c-3.4,47.68-36.79,81.16-78.13,81.16 C995.46,368.05,967.03,334.57,970.43,286.89z M1002.75,286.89c-2.04,28.61,13.7,47.68,36.44,47.68s41.39-19.07,43.42-47.68 s-13.89-47.68-36.63-47.68S1004.79,258.29,1002.75,286.89z"/> <path d="M1312.6,364.87l-26.97-64.84c0,0,0,0-17.11,64.84c0,0,0,0-35.18,0c0,0,0,0,41.15-155.96c0,0,0,0,35.18,0 c0,0,0,0-15.93,60.39c0,0,0,0,58.19-59.12c0,0,0,0,41.32,0c0,0,0,0-72.9,73.1c0,0,0,0,35.05,81.58 C1355.4,364.87,1355.4,364.87,1312.6,364.87z"/> <path d="M1183.32,364.87l-22.46-61.03c0,0,0,0-16.1,61.03c0,0,0,0-35.18,0c0,0,0,0,41.15-155.96c0,0,0,0,52.98,0 c33.06,0,49.04,16.53,40.59,48.53c-5.65,21.4-22.82,37.51-46.31,43.02c0,0,0,0,27.71,64.42 C1225.7,364.87,1225.7,364.87,1183.32,364.87z M1168.29,275.66h16.11c11.87,0,21.13-6.99,24.09-18.22 c2.96-11.23-2.61-18.22-14.47-18.22c0,0,0,0-16.1,0C1177.91,239.22,1177.91,239.22,1168.29,275.66z"/> </g> </svg></a></p>
+      <small>© 2026 <a class="fw" href="https://fletchwork.com" target="_blank" rel="noopener">Fletchwork Studio LLC<span class="sr-only"> (opens in a new tab)</span></a></small>
+    </div>
   </footer>
 </main>
 
@@ -321,6 +483,138 @@
   if (location.hash === '#example') loadExample();
   else try { const saved = localStorage.getItem(KEY); if (saved) { $('pack').value = JSON.stringify(JSON.parse(saved), null, 2); if (load($('pack').value, true)) $('restored').classList.remove('hidden'); } }
   catch (e) { /* nothing saved */ }
+})();
+</script>
+<script>
+// How it works: a looping mock of the copy -> chat -> copy back -> print loop.
+(function () {
+  'use strict';
+  const box = document.getElementById('hiw');
+  const stage = document.getElementById('hiwStage');
+  if (!stage) return;
+  const fit = document.getElementById('hiwFit');
+  const cap = document.getElementById('hiwCap');
+  const toggle = document.getElementById('hiwToggle');
+  const steps = Array.from(document.querySelectorAll('#hiwSteps button'));
+  const START = [0, 2800, 16000, 20000];
+  const t = (name) => stage.querySelector('[data-t="' + name + '"]');
+  const CODE = '{ "book": "Treasure Island",\n  "reader": "Sam", "age": 10,\n  "quests": [ …';
+  const PASTED = 'You are helping me make a StoryQuest reading packet…';
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const GIF = /[?&]gif\b/.test(location.search);
+  let W = 440, H = 300, timers = [], playing = false, userPaused = false, visible = false, fast = false;
+
+  function scale() {
+    // Narrow screens get a narrower stage so its text stays readable instead of shrinking.
+    const narrow = fit.clientWidth < 460;
+    W = narrow ? 340 : 440; H = narrow ? 320 : 300;
+    stage.classList.toggle('narrow', narrow);
+    stage.style.width = W + 'px'; stage.style.height = H + 'px';
+    const k = Math.min(1.27, fit.clientWidth / W);
+    stage.style.transform = 'scale(' + k + ')';
+    fit.style.height = (H * k) + 'px';
+  }
+  function at(ms, fn) { timers.push(setTimeout(fn, ms)); }
+  function caption(n, text) {
+    cap.textContent = 'Step ' + n + ': ' + text;
+    steps.forEach((b, i) => { b.classList.toggle('on', i === n - 1); if (i === n - 1) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current'); });
+  }
+  function moveTo(el, dx, dy) {
+    const s = stage.getBoundingClientRect(), r = el.getBoundingClientRect(), k = s.width / W || 1;
+    const x = (r.left - s.left + r.width * (dx == null ? .5 : dx)) / k, y = (r.top - s.top + r.height * (dy == null ? .55 : dy)) / k;
+    t('cursor').style.transform = 'translate(' + x + 'px,' + y + 'px)';
+  }
+  function park() { t('cursor').style.transform = 'translate(' + (W - 40) + 'px,' + (H - 30) + 'px)'; }
+  function tap() { const c = t('cursor'); c.classList.remove('tap'); void c.offsetWidth; c.classList.add('tap'); }
+  function bubble(cls, text) { const b = document.createElement('div'); b.className = 'hiw-msg ' + cls; b.textContent = text || ''; t('log').appendChild(b); return b; }
+  function codeBlock(copied) {
+    const c = document.createElement('div'); c.className = 'hiw-code'; c.textContent = CODE;
+    const cp = document.createElement('span'); cp.className = 'cp' + (copied ? ' done' : ''); cp.textContent = copied ? 'Copied ✓' : 'Copy';
+    c.appendChild(cp); t('log').appendChild(c); return cp;
+  }
+  function typeInto(el, text, ms) {
+    if (fast) { el.textContent = text; return; }
+    const step = Math.max(18, ms / text.length);
+    for (let i = 1; i <= text.length; i++) at(step * i, () => { el.textContent = text.slice(0, i); });
+  }
+  function clearInput() { t('inputTxt').textContent = 'Message…'; t('inputTxt').classList.remove('on'); }
+  function reset() {
+    timers.forEach(clearTimeout); timers = [];
+    stage.dataset.tab = 'sq'; stage.dataset.sq = 'copy'; stage.classList.remove('shown');
+    t('copyBtn').textContent = 'Copy the instructions'; t('copyBtn').classList.remove('done');
+    t('ta').textContent = 'Paste the whole block from your AI here'; t('ta').classList.remove('full');
+    t('log').innerHTML = ''; clearInput();
+    t('cursor').style.transition = 'none'; park(); void t('cursor').offsetWidth; t('cursor').style.transition = '';
+    caption(1, 'Copy the instructions.');
+  }
+  function run(from) {
+    // Steps before `from` run instantly so a step button can jump into the middle of the loop.
+    from = from || 0;
+    reset();
+    fast = true;
+    const T = (ms, fn) => { if (ms < from) fn(); else at(ms - from, fn); };
+    T(500, () => moveTo(t('copyBtn'), .72, .8));
+    T(1300, () => { tap(); t('copyBtn').textContent = 'Copied ✓'; t('copyBtn').classList.add('done'); });
+    T(2800, () => { caption(2, 'Paste them into your AI chatbot or its app.'); moveTo(t('tabAi')); });
+    T(3700, () => { tap(); stage.dataset.tab = 'ai'; });
+    T(4300, () => moveTo(t('input'), .35));
+    T(5000, () => { tap(); t('inputTxt').textContent = PASTED; t('inputTxt').classList.add('on'); });
+    T(5600, () => moveTo(t('send'), .6, .7));
+    T(6300, () => { tap(); bubble('me paste', PASTED); clearInput(); });
+    T(6900, () => { caption(2, 'Answer its questions. It may ask a few more than this.'); typeInto(bubble('ai'), 'Happy to help! What book is your child reading?', 900); });
+    T(8200, () => { t('inputTxt').classList.add('on'); typeInto(t('inputTxt'), 'Treasure Island', 500); });
+    T(8900, () => { bubble('me', 'Treasure Island'); clearInput(); });
+    T(9300, () => typeInto(bubble('ai'), 'Great pick! What’s their first name and age?', 900));
+    T(10600, () => { t('inputTxt').classList.add('on'); typeInto(t('inputTxt'), 'Sam, 10', 350); });
+    T(11200, () => { bubble('me', 'Sam, 10'); clearInput(); });
+    T(11600, () => bubble('ai', 'Here’s your packet. Copy all of it:'));
+    T(12000, () => codeBlock(false));
+    T(12400, () => { caption(2, 'Press the Copy button on the block it writes.'); moveTo(stage.querySelector('.hiw-code .cp'), .72, .8); });
+    T(13300, () => { tap(); const cp = stage.querySelector('.hiw-code .cp'); cp.textContent = 'Copied ✓'; cp.classList.add('done'); });
+    T(16000, () => { caption(3, 'Paste it back here and press Make my pages.'); moveTo(t('tabSq')); });
+    T(16800, () => { tap(); stage.dataset.tab = 'sq'; stage.dataset.sq = 'paste'; });
+    T(17400, () => moveTo(t('ta'), .5, .4));
+    T(18100, () => { tap(); t('ta').textContent = CODE; t('ta').classList.add('full'); });
+    T(18700, () => moveTo(t('makeBtn'), .72, .8));
+    T(19500, () => tap());
+    T(20000, () => { stage.dataset.sq = 'pages'; void stage.offsetWidth; stage.classList.add('shown'); caption(4, 'Check the pages and print.'); park(); });
+    T(24300, () => { if (playing) run(0); });
+    fast = false;
+  }
+  function still() {
+    // Reduced motion: hold on the hand-back moment, the step people miss.
+    reset(); stage.dataset.tab = 'ai';
+    bubble('me paste', PASTED); bubble('ai', 'Happy to help! What book is your child reading?'); bubble('me', 'Treasure Island');
+    bubble('ai', 'Here’s your packet. Copy all of it:'); codeBlock(true);
+    caption(2, 'Press the Copy button on its block, then paste it back here.');
+    park();
+  }
+  const ICON = { pause: '<svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><rect x="3" y="2" width="3.5" height="12" rx="1"/><rect x="9.5" y="2" width="3.5" height="12" rx="1"/></svg>', play: '<svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M4 2.2v11.6c0 .6.7 1 1.2.6l8.6-5.8c.4-.3.4-1 0-1.3L5.2 1.6C4.7 1.2 4 1.6 4 2.2z"/></svg>' };
+  function label(p) { toggle.innerHTML = p ? ICON.pause : ICON.play; toggle.setAttribute('aria-label', (p ? 'Pause' : 'Play') + ' the how it works animation'); }
+  function play(from) { if (playing && from == null) return; playing = true; label(true); run(from); }
+  function pause() { playing = false; timers.forEach(clearTimeout); timers = []; label(false); }
+  function sync() {
+    const want = visible && !userPaused && !document.hidden && box.open;
+    if (want && !playing) play(); else if (!want && playing) pause();
+  }
+  toggle.addEventListener('click', () => { if (playing) { userPaused = true; pause(); } else { userPaused = false; play(); } });
+  steps.forEach((b, i) => b.addEventListener('click', () => { userPaused = false; play(START[i]); }));
+  // Open by default; if someone hides it, keep it hidden on their next visit (this device only).
+  const HIDE = 'storyquest:hide-how-it-works';
+  try { if (localStorage.getItem(HIDE) === '1' && !GIF) box.open = false; } catch (e) { /* storage blocked: stay open */ }
+  box.addEventListener('toggle', () => {
+    try { if (box.open) localStorage.removeItem(HIDE); else localStorage.setItem(HIDE, '1'); } catch (e) { /* fine */ }
+    if (box.open) scale();
+    sync();
+  });
+  if (GIF) { box.querySelector('summary').style.display = 'none'; toggle.style.visibility = 'hidden'; }
+  const at0 = /[?&]step=(\d)/.exec(location.search);
+  scale(); window.addEventListener('resize', scale);
+  if (reduce.matches) { userPaused = true; still(); label(false); } else { reset(); label(true); }
+  if (at0 && /[?&]hold\b/.test(location.search)) { const n = +at0[1]; userPaused = true; run([2700, 15900, 19950, 24000][n - 1]); pause(); }
+  document.addEventListener('visibilitychange', sync);
+  if ('IntersectionObserver' in window) new IntersectionObserver((es) => { visible = es[0].isIntersecting; sync(); }, { threshold: .35 }).observe(fit);
+  else { visible = true; sync(); }
 })();
 </script>
 </body>
