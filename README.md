@@ -39,8 +39,10 @@ StoryQuest is free to use, and your information stays on your device.
 
 ## Make one (about 15 minutes, no installing)
 
+<p align="center"><a href="https://fletchwork.github.io/storyquest/"><img src="docs/img/how-it-works.jpg" alt="Four steps: 1 copy the instructions on StoryQuest; 2 paste them into your AI chatbot, answer its questions, and press the Copy button on the block it writes; 3 paste that block back into StoryQuest and press Make my pages; 4 check the pages and print" width="640"></a><br><sub>The StoryQuest page plays this as a short animation you can pause and step through.</sub></p>
+
 1. **Open the StoryQuest page:** https://fletchwork.github.io/storyquest/
-2. **Click "Copy the instructions"** and paste them into any chat AI you already use, such as ChatGPT, Claude, Gemini or Copilot.
+2. **Click "Copy the instructions"** and paste them into any AI chatbot you already use, such as ChatGPT, Claude, Gemini or Copilot.
 3. **Answer the AI's questions** about the book and the child. It then writes everything as one long block of text.
 4. **Copy that block** and **paste it into the StoryQuest page**.
 5. **Check the pages and print.** You can change the child's name, the look and the paper size there. Choose "Save as PDF" in the print window to keep a copy. More printing help: [docs/printing.md](docs/printing.md).
