@@ -63,11 +63,10 @@ jobs:
           python -m pytest -q
 
   # Public repo: GitHub shares a private repository's actions only with other
-  # private repositories, so this job cannot call the shared security
-  # composite the private repos use. It inlines the same tools at the same
-  # pins instead: gitleaks with a constant SHA-256 (history reachable from
+  # private repositories, so this job inlines its scanners instead of calling
+  # a shared action: gitleaks with a constant SHA-256 (history reachable from
   # HEAD plus the working tree, failing closed on a shallow clone) and
-  # semgrep. Bump the pins together with the composite.
+  # semgrep, each at a fixed version.
   # OSV-Scanner is left out on purpose: the repo has no dependency manifest
   # (a plain JS engine and a stdlib-only CLI). Add it when one appears.
   security:
