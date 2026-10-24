@@ -4,12 +4,18 @@ on:
   push:
     branches: [main]
   pull_request:
+    # The defaults plus ready_for_review (CI STANDARD S7): flipping a draft to
+    # ready emits no `synchronize`, so without this type the draft's red
+    # required check would never re-run on the same head.
+    types: [opened, synchronize, reopened, ready_for_review]
+  merge_group:
 
 permissions:
   contents: read
 
+# One run per PR ref, where a superseded push cancels; on main each push runs on its own.
 concurrency:
-  group: ci-${{ github.ref }}
+  group: ${{ github.ref == 'refs/heads/main' && format('ci-main-run-{0}', github.run_id) || format('ci-{0}', github.ref) }}
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
@@ -18,6 +24,19 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
+      # CI STANDARD S7: heavy work runs once, at ready. On a draft PR this
+      # first step fails the job red and every later step is skipped. The job
+      # itself is never skipped: a skipped required check reads green, a draft
+      # must not. Readying the PR emits ready_for_review, which runs this job
+      # again on the same head. A re-run of the draft's own run keeps the
+      # draft payload and stays red. Push and main runs are unaffected.
+      - name: Draft gate (S7)
+        if: github.event_name == 'pull_request' && github.event.pull_request.draft == true
+        run: |
+          echo "::error::draft: heavy jobs skipped; mark ready to run them"
+          echo "::notice::ready the PR (gh pr ready); re-running a draft's run keeps its draft payload and stays red"
+          exit 1
+
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
 
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97  # v7.0.0
@@ -43,6 +62,14 @@ jobs:
           python -m pip install --quiet pytest
           python -m pytest -q
 
+  # Public repo: GitHub shares a private repository's actions only with other
+  # private repositories, so this job cannot call the shared security
+  # composite the private repos use. It inlines the same tools at the same
+  # pins instead: gitleaks with a constant SHA-256 (history reachable from
+  # HEAD plus the working tree, failing closed on a shallow clone) and
+  # semgrep. Bump the pins together with the composite.
+  # OSV-Scanner is left out on purpose: the repo has no dependency manifest
+  # (a plain JS engine and a stdlib-only CLI). Add it when one appears.
   security:
     name: security
     runs-on: ubuntu-latest
@@ -50,14 +77,46 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
-          fetch-depth: 0  # gitleaks scans every commit
+          fetch-depth: 0  # gitleaks scans every commit reachable from HEAD
+
+      - name: Install gitleaks (pinned, checksum-verified)
+        # A constant hash, never one fetched at runtime next to the tarball.
+        env:
+          GITLEAKS_VERSION: 8.24.3
+          GITLEAKS_SHA256: 9991e0b2903da4c8f6122b5c3186448b927a5da4deef1fe45271c3793f4ee29c
+        run: |
+          set -euo pipefail
+          dir="$RUNNER_TEMP/gitleaks"
+          mkdir -p "$dir"
+          curl -sSfL -o "$dir/gitleaks.tar.gz" \
+            "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz"
+          actual=$(sha256sum "$dir/gitleaks.tar.gz" | awk '{print $1}')
+          if [ "$actual" != "$GITLEAKS_SHA256" ]; then
+            echo "::error::gitleaks tarball checksum mismatch: expected $GITLEAKS_SHA256, got $actual"
+            exit 1
+          fi
+          tar -xzf "$dir/gitleaks.tar.gz" -C "$dir" gitleaks
+          echo "GITLEAKS_BIN=$dir/gitleaks" >> "$GITHUB_ENV"
 
       - name: gitleaks (secrets in history)
-        env:
-          GITLEAKS_VERSION: 8.30.1
+        # HEAD-scoped: judges what this run merges. --redact never prints a match.
         run: |
-          curl -sSfLO "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz"
-          curl -sSfL -o checksums.txt "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_checksums.txt"
-          grep " gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz$" checksums.txt | sha256sum -c -
-          tar -xzf "gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz" gitleaks
-          ./gitleaks git . --no-banner --redact -v
+          shallow=$(git rev-parse --is-shallow-repository)
+          if [ "$shallow" != "false" ]; then
+            echo "::error::shallow checkout: gitleaks would pass over unscanned history"
+            exit 1
+          fi
+          "$GITLEAKS_BIN" git . --log-opts=HEAD --redact --no-banner --exit-code 1
+
+      - name: gitleaks (secrets in the working tree)
+        run: '"$GITLEAKS_BIN" dir . --redact --no-banner --exit-code 1'
+
+      - name: semgrep (SAST)
+        # Venv under $RUNNER_TEMP, outside the tree semgrep walks.
+        env:
+          SEMGREP_VERSION: 1.178.0
+        run: |
+          python3 -m venv "$RUNNER_TEMP/semgrep-venv"
+          "$RUNNER_TEMP/semgrep-venv/bin/pip" install --quiet "semgrep==$SEMGREP_VERSION"
+          "$RUNNER_TEMP/semgrep-venv/bin/semgrep" scan --config p/security-audit --config p/secrets \
+            --severity ERROR --error --metrics off
